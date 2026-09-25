@@ -1,31 +1,690 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tugas Algoritma dan Pemrograman</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peringkat Kelas - Linear Search</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #eef2ff, #f8f9ff);
+            color: #222;
+            min-height: 100vh;
+        }
+
+        header {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: white;
+            text-align: center;
+            padding: 35px 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .container {
+            width: 92%;
+            max-width: 1100px;
+            margin: 30px auto;
+        }
+
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+        }
+
+        .card h2 {
+            color: #4f46e5;
+            margin-bottom: 18px;
+        }
+
+        /* DATA SISWA */
+        .input-area {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        input {
+            padding: 13px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #6366f1;
+        }
+
+        button {
+            border: none;
+            border-radius: 10px;
+            padding: 13px 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .btn-tambah {
+            background: #4f46e5;
+            color: white;
+        }
+
+        .btn-tambah:hover {
+            background: #3730a3;
+            transform: translateY(-2px);
+        }
+
+        .btn-hitung {
+            width: 100%;
+            background: linear-gradient(135deg, #7c3aed, #4f46e5);
+            color: white;
+            font-size: 17px;
+            margin-top: 15px;
+        }
+
+        .btn-hitung:hover {
+            transform: scale(1.02);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th {
+            background: #4f46e5;
+            color: white;
+            padding: 13px;
+        }
+
+        td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:hover {
+            background: #f5f3ff;
+        }
+
+        .btn-hapus {
+            background: #ef4444;
+            color: white;
+            padding: 7px 12px;
+            font-size: 12px;
+        }
+
+        .btn-hapus:hover {
+            background: #b91c1c;
+        }
+
+        /* HASIL */
+        #hasil {
+            display: none;
+        }
+
+        .selamat {
+            text-align: center;
+            background: linear-gradient(135deg, #fff7cc, #ffffff);
+            border: 3px solid #facc15;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
+            animation: glow 1.5s infinite alternate;
+        }
+
+        .selamat h2 {
+            color: #eab308;
+            font-size: 32px;
+            margin-bottom: 8px;
+            animation: pulse 1.2s infinite;
+        }
+
+        .selamat p {
+            font-size: 17px;
+            color: #555;
+        }
+
+        @keyframes glow {
+            from {
+                box-shadow: 0 0 10px rgba(250,204,21,0.4);
+            }
+            to {
+                box-shadow: 0 0 30px rgba(250,204,21,0.9);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.08);
+            }
+        }
+
+        /* PODIUM */
+        .podium {
+            display: flex;
+            justify-content: center;
+            align-items: end;
+            gap: 18px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .juara {
+            width: 30%;
+            min-width: 220px;
+            text-align: center;
+            border-radius: 18px 18px 10px 10px;
+            padding: 25px 15px;
+            color: white;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            animation: naik 0.8s ease-out;
+        }
+
+        .juara h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .juara .nama {
+            font-size: 21px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .juara .nilai {
+            font-size: 18px;
+        }
+
+        .juara1 {
+            background: linear-gradient(135deg, #f59e0b, #fbbf24);
+            min-height: 220px;
+        }
+
+        .juara2 {
+            background: linear-gradient(135deg, #64748b, #94a3b8);
+            min-height: 185px;
+        }
+
+        .juara3 {
+            background: linear-gradient(135deg, #b45309, #d97706);
+            min-height: 165px;
+        }
+
+        @keyframes naik {
+            from {
+                transform: translateY(80px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .nama-glow {
+            animation: namaGlow 1.5s infinite alternate;
+        }
+
+        @keyframes namaGlow {
+            from {
+                text-shadow: 0 0 5px white;
+            }
+            to {
+                text-shadow: 0 0 18px white, 0 0 30px #fff;
+            }
+        }
+
+        /* RANKING */
+        .ranking-table th {
+            background: #7c3aed;
+        }
+
+        .top3 {
+            background: #fef9c3;
+            font-weight: bold;
+        }
+
+        /* FLOWCHART */
+        .flowchart {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .flow-box {
+            background: #eef2ff;
+            border: 2px solid #6366f1;
+            color: #3730a3;
+            padding: 14px 25px;
+            border-radius: 12px;
+            text-align: center;
+            width: 80%;
+            max-width: 600px;
+            font-weight: bold;
+        }
+
+        .flow-start {
+            border-radius: 50px;
+            background: #dcfce7;
+            border-color: #22c55e;
+            color: #15803d;
+        }
+
+        .flow-end {
+            border-radius: 50px;
+            background: #fee2e2;
+            border-color: #ef4444;
+            color: #b91c1c;
+        }
+
+        .arrow {
+            font-size: 25px;
+            color: #6366f1;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        @media (max-width: 700px) {
+            .input-area {
+                grid-template-columns: 1fr;
+            }
+
+            .juara {
+                width: 100%;
+            }
+
+            table {
+                font-size: 13px;
+            }
+
+            header h1 {
+                font-size: 25px;
+            }
+        }
+    </style>
 </head>
+
 <body>
-  <h1>Tugas Algoritma dan Pemrograman</h1>
 
-  <p>Nama: <strong>Kristiana</strong></p>
-  <p>NIM: <strong>31250006</strong></p>
+<header>
+    <h1>🏆 Peringkat Kelas</h1>
+    <p>Pengembangan Algoritma Linear Search untuk Menentukan 3 Nilai Terbesar</p>
+</header>
 
-  <h2>Daftar Tugas</h2>
-  <ul>
-    <li><a href="./minggu-01/">Minggu 01</a></li>
-    <li><a href="./minggu-02/">Minggu 02</a></li>
-    <li><a href="./minggu-03/">Minggu 03</a></li>
-    <li><a href="./minggu-04/">Minggu 04</a></li>
-    <li><a href="./minggu-05/">Minggu 05</a></li>
-    <li><a href="./minggu-06/">Minggu 06</a></li>
-    <li><a href="./minggu-07/">Minggu 07</a></li>
-    <li><a href="./minggu-08/">Minggu 08</a></li>
-    <li><a href="./minggu-09/">Minggu 09</a></li>
-    <li><a href="./minggu-10/">Minggu 10</a></li>
-    <li><a href="./minggu-11/">Minggu 11</a></li>
-    <li><a href="./minggu-12/">Minggu 12</a></li>
-  </ul>
+<div class="container">
+
+    <!-- DATA SISWA -->
+    <div class="card">
+        <h2>📋 Data Siswa</h2>
+
+        <div class="input-area">
+            <input type="text" id="nama" placeholder="Masukkan nama siswa">
+            <input type="number" id="nilai" placeholder="Masukkan nilai" min="0" max="100">
+            <button class="btn-tambah" onclick="tambahSiswa()">+ Tambah</button>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Nama</th>
+                    <th>Nilai</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+
+            <tbody id="dataSiswa"></tbody>
+        </table>
+
+        <button class="btn-hitung" onclick="hitungPeringkat()">
+            🔍 Cari 3 Nilai Terbesar dengan Linear Search
+        </button>
+    </div>
+
+    <!-- HASIL -->
+    <div class="card" id="hasil">
+
+        <!-- SELAMAT MUNCUL BERSAMA HASIL -->
+        <div class="selamat">
+            <h2>🎉 SELAMAT! 🎉</h2>
+            <p>Berikut adalah 3 besar peringkat kelas!</p>
+        </div>
+
+        <!-- PODIUM -->
+        <div class="podium" id="podium"></div>
+
+        <!-- TABEL RANKING -->
+        <h2>🏅 Peringkat 3 Besar</h2>
+
+        <table class="ranking-table">
+            <thead>
+                <tr>
+                    <th>Peringkat</th>
+                    <th>Nama</th>
+                    <th>Nilai</th>
+                </tr>
+            </thead>
+
+            <tbody id="hasilRanking"></tbody>
+        </table>
+
+    </div>
+
+    <!-- FLOWCHART -->
+    <div class="card">
+        <h2>📊 Flowchart Linear Search</h2>
+
+        <div class="flowchart">
+
+            <div class="flow-box flow-start">
+                MULAI
+            </div>
+
+            <div class="arrow">↓</div>
+
+            <div class="flow-box">
+                Input data nama dan nilai siswa
+            </div>
+
+            <div class="arrow">↓</div>
+
+            <div class="flow-box">
+                Tentukan nilai terbesar sementara
+            </div>
+
+            <div class="arrow">↓</div>
+
+            <div class="flow-box">
+                Bandingkan setiap nilai menggunakan Linear Search
+            </div>
+
+            <div class="arrow">↓</div>
+
+            <div class="flow-box">
+                Jika nilai lebih besar, jadikan sebagai nilai terbesar
+            </div>
+
+            <div class="arrow">↓</div>
+
+            <div class="flow-box">
+                Simpan siswa dengan nilai terbesar
+            </div>
+
+            <div class="arrow">↓</div>
+
+            <div class="flow-box">
+                Ulangi proses untuk mencari peringkat ke-2 dan ke-3
+            </div>
+
+            <div class="arrow">↓</div>
+
+            <div class="flow-box">
+                Tampilkan 3 nilai terbesar
+            </div>
+
+            <div class="arrow">↓</div>
+
+            <div class="flow-box flow-end">
+                SELESAI
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<footer>
+    Algoritma & Pemrograman — Linear Search | Website Peringkat Kelas
+</footer>
+
+
+<script>
+
+    // DATA AWAL SISWA
+    let siswa = [
+        { nama: "Andi", nilai: 78 },
+        { nama: "Budi", nilai: 92 },
+        { nama: "Citra", nilai: 85 },
+        { nama: "Dewi", nilai: 67 },
+        { nama: "Eka", nilai: 95 },
+        { nama: "Fajar", nilai: 81 },
+        { nama: "Gita", nilai: 88 },
+        { nama: "Hendra", nilai: 73 }
+    ];
+
+
+    // MENAMPILKAN DATA SISWA
+    function tampilkanData() {
+
+        const tabel = document.getElementById("dataSiswa");
+
+        tabel.innerHTML = "";
+
+        siswa.forEach((data, index) => {
+
+            tabel.innerHTML += `
+                <tr>
+                    <td>${index + 1}</td>
+                    <td>${data.nama}</td>
+                    <td>${data.nilai}</td>
+                    <td>
+                        <button class="btn-hapus"
+                            onclick="hapusSiswa(${index})">
+                            Hapus
+                        </button>
+                    </td>
+                </tr>
+            `;
+
+        });
+    }
+
+
+    // MENAMBAH SISWA
+    function tambahSiswa() {
+
+        const namaInput = document.getElementById("nama");
+        const nilaiInput = document.getElementById("nilai");
+
+        const nama = namaInput.value.trim();
+        const nilai = Number(nilaiInput.value);
+
+        if (nama === "" || nilaiInput.value === "") {
+            alert("Nama dan nilai harus diisi!");
+            return;
+        }
+
+        if (nilai < 0 || nilai > 100) {
+            alert("Nilai harus berada antara 0 sampai 100!");
+            return;
+        }
+
+        siswa.push({
+            nama: nama,
+            nilai: nilai
+        });
+
+        namaInput.value = "";
+        nilaiInput.value = "";
+
+        tampilkanData();
+
+        document.getElementById("hasil").style.display = "none";
+    }
+
+
+    // MENGHAPUS SISWA
+    function hapusSiswa(index) {
+
+        siswa.splice(index, 1);
+
+        tampilkanData();
+
+        document.getElementById("hasil").style.display = "none";
+    }
+
+
+    // ALGORITMA LINEAR SEARCH
+    function hitungPeringkat() {
+
+        if (siswa.length < 3) {
+            alert("Minimal harus ada 3 siswa!");
+            return;
+        }
+
+        // Membuat salinan data
+        let sisa = [...siswa];
+
+        let hasil = [];
+
+        // Mencari 3 nilai terbesar
+        for (let k = 0; k < 3; k++) {
+
+            let nilaiTerbesar = -Infinity;
+            let indexTerbesar = -1;
+
+            // LINEAR SEARCH
+            for (let i = 0; i < sisa.length; i++) {
+
+                if (sisa[i].nilai > nilaiTerbesar) {
+
+                    nilaiTerbesar = sisa[i].nilai;
+                    indexTerbesar = i;
+
+                }
+
+            }
+
+            // Simpan hasil
+            hasil.push(sisa[indexTerbesar]);
+
+            // Hapus data yang sudah dipilih
+            sisa.splice(indexTerbesar, 1);
+        }
+
+
+        tampilkanHasil(hasil);
+    }
+
+
+    // MENAMPILKAN HASIL
+    function tampilkanHasil(hasil) {
+
+        const hasilBox = document.getElementById("hasil");
+
+        const podium = document.getElementById("podium");
+
+        const ranking = document.getElementById("hasilRanking");
+
+        hasilBox.style.display = "block";
+
+
+        // PODIUM
+        podium.innerHTML = `
+
+            <div class="juara juara2">
+                <h3>🥈 JUARA 2</h3>
+                <div class="nama nama-glow">
+                    ${hasil[1].nama}
+                </div>
+                <div class="nilai">
+                    Nilai: ${hasil[1].nilai}
+                </div>
+            </div>
+
+            <div class="juara juara1">
+                <h3>🥇 JUARA 1</h3>
+                <div class="nama nama-glow">
+                    ${hasil[0].nama}
+                </div>
+                <div class="nilai">
+                    Nilai: ${hasil[0].nilai}
+                </div>
+            </div>
+
+            <div class="juara juara3">
+                <h3>🥉 JUARA 3</h3>
+                <div class="nama nama-glow">
+                    ${hasil[2].nama}
+                </div>
+                <div class="nilai">
+                    Nilai: ${hasil[2].nilai}
+                </div>
+            </div>
+        `;
+
+
+        // TABEL HASIL
+        ranking.innerHTML = "";
+
+        hasil.forEach((data, index) => {
+
+            let kelas = index < 3 ? "top3" : "";
+
+            let medali = "";
+
+            if (index === 0) {
+                medali = "🥇";
+            } else if (index === 1) {
+                medali = "🥈";
+            } else {
+                medali = "🥉";
+            }
+
+            ranking.innerHTML += `
+                <tr class="${kelas}">
+                    <td>${medali} ${index + 1}</td>
+                    <td>${data.nama}</td>
+                    <td>${data.nilai}</td>
+                </tr>
+            `;
+
+        });
+
+
+        // Scroll ke hasil
+        hasilBox.scrollIntoView({
+            behavior: "smooth"
+        });
+    }
+
+
+    // TAMPILKAN DATA SAAT WEBSITE DIBUKA
+    tampilkanData();
+
+</script>
 
 </body>
 </html>
