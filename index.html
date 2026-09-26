@@ -1,207 +1,74 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tugas Algoritma dan Pemrograman</title>
 
-<title>MK Algoritma dan Pemrograman</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            line-height: 1.8;
+        }
 
-<style>
-*{
-  box-sizing:border-box;
-}
+        h1 {
+            font-size: 36px;
+        }
 
-body{
-  margin:0;
-  font-family:Arial, sans-serif;
-  background:linear-gradient(135deg,#fff7ed,#fff);
-  color:#3d2b1f;
-}
+        h2 {
+            font-size: 30px;
+            margin-top: 30px;
+        }
 
-.container{
-  max-width:900px;
-  margin:50px auto;
-  padding:20px;
-}
+        .info {
+            font-size: 22px;
+        }
 
-.card{
-  background:white;
-  border-radius:22px;
-  padding:40px;
-  box-shadow:0 8px 25px rgba(0,0,0,.10);
-  border:1px solid #ffe0bd;
-}
+        ul {
+            font-size: 21px;
+        }
 
-h1{
-  text-align:center;
-  color:#e96500;
-  font-size:36px;
-  margin-bottom:10px;
-}
-
-.identitas{
-  text-align:center;
-  color:#66584e;
-  margin-bottom:35px;
-}
-
-.identitas p{
-  margin:6px;
-}
-
-h2{
-  color:#e96500;
-  margin-bottom:20px;
-}
-
-.daftar{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:15px;
-}
-
-.daftar a{
-  text-decoration:none;
-  color:#914500;
-  background:#fff3e4;
-  border:2px solid #ffd09e;
-  border-radius:14px;
-  padding:18px 20px;
-  font-weight:bold;
-  display:flex;
-  align-items:center;
-  gap:12px;
-  transition:.2s;
-}
-
-.daftar a:hover{
-  background:#ffead2;
-  border-color:#ff9b3d;
-  transform:translateY(-3px);
-  box-shadow:0 5px 12px rgba(255,122,0,.15);
-}
-
-.nomor{
-  background:#ff7a00;
-  color:white;
-  width:40px;
-  height:40px;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  flex-shrink:0;
-}
-
-.keterangan{
-  font-size:14px;
-  font-weight:normal;
-  color:#806f62;
-  display:block;
-  margin-top:3px;
-}
-
-footer{
-  text-align:center;
-  margin-top:25px;
-  color:#8a796b;
-  font-size:14px;
-}
-
-@media(max-width:600px){
-  .container{
-    margin:25px auto;
-  }
-
-  .card{
-    padding:25px;
-  }
-
-  h1{
-    font-size:28px;
-  }
-
-  .daftar{
-    grid-template-columns:1fr;
-  }
-}
-</style>
+        a {
+            color: #0645ad;
+        }
+    </style>
 </head>
 
 <body>
 
-<div class="container">
+    <h1>Tugas Algoritma dan Pemrograman</h1>
 
-  <div class="card">
+    <p class="info">Nama: <b>Kristiana</b></p>
+    <p class="info">NIM: <b>31250006</b></p>
 
-    <h1>📚 Tugas Algoritma dan Pemrograman</h1>
+    <h2>Daftar Tugas</h2>
 
-    <div class="identitas">
-      <p>Nama: <strong>Kristiana</strong></p>
-      <p>NIM: <strong>31250006</strong></p>
-    </div>
+    <ul>
+        <li>
+            <a href="minggu-01/">Minggu 01</a>
+        </li>
 
-    <h2>📋 Daftar Tugas</h2>
+        <li>
+            <a href="minggu-02/">Minggu 02</a>
+        </li>
 
-    <div class="daftar">
+        <li>
+            <a href="minggu-03/">Minggu 03</a>
+        </li>
 
-      <a href="minggu-01/">
-        <div class="nomor">01</div>
-        <div>
-          Minggu 01
-          <span class="keterangan">Tugas Minggu 01</span>
-        </div>
-      </a>
+        <li>
+            <a href="minggu-04/">Minggu 04</a>
+        </li>
 
-      <a href="minggu-02/">
-        <div class="nomor">02</div>
-        <div>
-          Minggu 02
-          <span class="keterangan">Tugas Minggu 02</span>
-        </div>
-      </a>
+        <li>
+            <a href="minggu-05/">Minggu 05</a>
+        </li>
 
-      <a href="minggu-03/">
-        <div class="nomor">03</div>
-        <div>
-          Minggu 03
-          <span class="keterangan">Tugas Minggu 03</span>
-        </div>
-      </a>
-
-      <a href="minggu-04/">
-        <div class="nomor">04</div>
-        <div>
-          Minggu 04
-          <span class="keterangan">Peringkat Kelas — Linear Search</span>
-        </div>
-      </a>
-
-      <a href="minggu-05/">
-        <div class="nomor">05</div>
-        <div>
-          Minggu 05
-          <span class="keterangan">Tugas Minggu 05</span>
-        </div>
-      </a>
-
-      <a href="minggu-06/">
-        <div class="nomor">06</div>
-        <div>
-          Minggu 06
-          <span class="keterangan">Tugas Minggu 06</span>
-        </div>
-      </a>
-
-    </div>
-
-  </div>
-
-  <footer>
-    © 2026 — Algoritma dan Pemrograman
-  </footer>
-
-</div>
+        <li>
+            <a href="minggu-06/">Minggu 06</a>
+        </li>
+    </ul>
 
 </body>
 </html>
