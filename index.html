@@ -3,370 +3,126 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Peringkat Kelas — Linear Search Top 3</title>
+
+<title>MK Algoritma dan Pemrograman</title>
 
 <style>
 *{
   box-sizing:border-box;
-  margin:0;
-  padding:0;
 }
 
 body{
+  margin:0;
   font-family:Arial, sans-serif;
-  background:#fff8f0;
+  background:linear-gradient(135deg,#fff7ed,#fff);
   color:#3d2b1f;
-  line-height:1.6;
-}
-
-header{
-  background:linear-gradient(135deg,#ff7a00,#ff9f43);
-  color:white;
-  padding:35px 20px;
-  text-align:center;
-  box-shadow:0 5px 15px rgba(0,0,0,.12);
-}
-
-header h1{
-  font-size:32px;
-  margin-bottom:8px;
-}
-
-header p{
-  font-size:16px;
 }
 
 .container{
-  max-width:1100px;
-  margin:30px auto;
-  padding:0 20px;
+  max-width:900px;
+  margin:50px auto;
+  padding:20px;
 }
 
 .card{
   background:white;
-  border-radius:18px;
-  padding:25px;
-  margin-bottom:25px;
-  box-shadow:0 5px 18px rgba(0,0,0,.08);
-  border:1px solid #ffe1c2;
-}
-
-.card h2{
-  color:#e96500;
-  margin-bottom:18px;
-}
-
-.form{
-  display:grid;
-  grid-template-columns:1fr 180px auto;
-  gap:12px;
-}
-
-input{
-  padding:12px 14px;
-  border:2px solid #ffd1a3;
-  border-radius:10px;
-  outline:none;
-  font-size:15px;
-}
-
-input:focus{
-  border-color:#ff851b;
-}
-
-button{
-  border:none;
-  border-radius:10px;
-  padding:12px 18px;
-  cursor:pointer;
-  font-weight:bold;
-  transition:.2s;
-}
-
-button:hover{
-  transform:translateY(-2px);
-}
-
-.btn-orange{
-  background:#ff7a00;
-  color:white;
-}
-
-.btn-orange:hover{
-  background:#e96500;
-}
-
-.btn-danger{
-  background:#ffe1df;
-  color:#c0392b;
-  padding:7px 12px;
-}
-
-table{
-  width:100%;
-  border-collapse:collapse;
-  margin-top:20px;
-}
-
-th{
-  background:#fff0df;
-  color:#d85c00;
-}
-
-th,td{
-  padding:12px;
-  border-bottom:1px solid #f2dfce;
-  text-align:center;
-}
-
-.array{
-  display:flex;
-  flex-wrap:wrap;
-  gap:12px;
-  margin-top:20px;
-}
-
-.array-item{
-  background:#fff0df;
-  border:2px solid #ffad66;
-  border-radius:12px;
-  padding:12px 18px;
-  text-align:center;
-  min-width:100px;
-}
-
-.array-item strong{
-  display:block;
-  color:#e96500;
-  font-size:20px;
-}
-
-/* FLOWCHART */
-.flowchart{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:10px;
-  margin-top:25px;
-}
-
-.flow-node{
-  min-width:250px;
-  max-width:330px;
-  padding:14px 20px;
-  background:white;
-  border:3px solid #ff851b;
-  border-radius:14px;
-  text-align:center;
-  font-weight:bold;
-  color:#914500;
-  cursor:pointer;
-  box-shadow:0 4px 10px rgba(255,122,0,.13);
-  transition:.2s;
-  position:relative;
-}
-
-.flow-node:hover{
-  background:#fff0df;
-  transform:scale(1.03);
-}
-
-/* START / END */
-.flow-start,
-.flow-end{
-  border-radius:50px;
-  background:#ff7a00;
-  color:white;
-  border-color:#e96500;
-}
-
-/* DECISION DIAMOND */
-.decision-wrap{
-  width:170px;
-  height:100px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.flow-decision{
-  width:115px;
-  height:115px;
-  background:#fff0df;
-  border:3px solid #ff851b;
-  transform:rotate(45deg);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  cursor:pointer;
-  box-shadow:0 4px 10px rgba(255,122,0,.13);
-}
-
-.flow-decision span{
-  transform:rotate(-45deg);
-  width:90px;
-  text-align:center;
-  font-weight:bold;
-  color:#914500;
-  font-size:13px;
-}
-
-.arrow{
-  color:#ff7a00;
-  font-size:25px;
-  font-weight:bold;
-}
-
-/* RESULT */
-.result{
-  display:none;
-  text-align:center;
-  background:linear-gradient(135deg,#fff7ed,#fff);
-  border:3px solid #ffb15c;
-}
-
-.result.show{
-  display:block;
-  animation:pop .5s ease;
-}
-
-@keyframes pop{
-  from{
-    transform:scale(.8);
-    opacity:0;
-  }
-  to{
-    transform:scale(1);
-    opacity:1;
-  }
-}
-
-.selamat{
-  font-size:30px;
-  color:#e96500;
-  font-weight:bold;
-  margin-bottom:25px;
-}
-
-.podium{
-  display:flex;
-  justify-content:center;
-  align-items:flex-end;
-  gap:15px;
-  margin-top:20px;
-}
-
-.rank{
-  width:180px;
-  border-radius:18px 18px 8px 8px;
-  padding:20px 10px;
-  box-shadow:0 5px 15px rgba(0,0,0,.12);
-}
-
-.rank h3{
-  font-size:25px;
-}
-
-.rank .nama{
-  font-size:20px;
-  font-weight:bold;
-  margin:10px 0;
-}
-
-.rank .nilai{
-  font-size:25px;
-  font-weight:bold;
-}
-
-.rank1{
-  background:#fff0c7;
-  min-height:230px;
-}
-
-.rank2{
-  background:#eeeeee;
-  min-height:190px;
-}
-
-.rank3{
-  background:#f5dfc8;
-  min-height:160px;
-}
-
-/* MODAL */
-.modal{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.5);
-  z-index:1000;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
-}
-
-.modal.show{
-  display:flex;
-}
-
-.modal-box{
-  background:white;
-  max-width:500px;
-  width:100%;
   border-radius:22px;
-  padding:30px;
-  text-align:center;
-  animation:pop .3s ease;
+  padding:40px;
+  box-shadow:0 8px 25px rgba(0,0,0,.10);
+  border:1px solid #ffe0bd;
 }
 
-.modal-icon{
-  font-size:55px;
+h1{
+  text-align:center;
+  color:#e96500;
+  font-size:36px;
   margin-bottom:10px;
 }
 
-.modal-box h2{
+.identitas{
+  text-align:center;
+  color:#66584e;
+  margin-bottom:35px;
+}
+
+.identitas p{
+  margin:6px;
+}
+
+h2{
   color:#e96500;
-  margin-bottom:12px;
+  margin-bottom:20px;
 }
 
-.modal-box p{
-  color:#5f5148;
-  margin-bottom:22px;
+.daftar{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:15px;
 }
 
-.confetti{
-  position:fixed;
-  top:-30px;
-  font-size:25px;
-  z-index:2000;
-  animation:jatuh 3s linear forwards;
-  pointer-events:none;
+.daftar a{
+  text-decoration:none;
+  color:#914500;
+  background:#fff3e4;
+  border:2px solid #ffd09e;
+  border-radius:14px;
+  padding:18px 20px;
+  font-weight:bold;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  transition:.2s;
 }
 
-@keyframes jatuh{
-  to{
-    transform:translateY(110vh) rotate(720deg);
-    opacity:0;
+.daftar a:hover{
+  background:#ffead2;
+  border-color:#ff9b3d;
+  transform:translateY(-3px);
+  box-shadow:0 5px 12px rgba(255,122,0,.15);
+}
+
+.nomor{
+  background:#ff7a00;
+  color:white;
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+}
+
+.keterangan{
+  font-size:14px;
+  font-weight:normal;
+  color:#806f62;
+  display:block;
+  margin-top:3px;
+}
+
+footer{
+  text-align:center;
+  margin-top:25px;
+  color:#8a796b;
+  font-size:14px;
+}
+
+@media(max-width:600px){
+  .container{
+    margin:25px auto;
   }
-}
 
-@media(max-width:700px){
-  .form{
+  .card{
+    padding:25px;
+  }
+
+  h1{
+    font-size:28px;
+  }
+
+  .daftar{
     grid-template-columns:1fr;
-  }
-
-  .podium{
-    flex-direction:column;
-    align-items:center;
-  }
-
-  .rank{
-    width:90%;
-    min-height:auto!important;
-  }
-
-  header h1{
-    font-size:25px;
   }
 }
 </style>
@@ -374,738 +130,78 @@ th,td{
 
 <body>
 
-<header>
-  <h1>🏆 Peringkat Kelas</h1>
-  <p>Algoritma Linear Search — Mencari 3 Nilai Terbesar</p>
-</header>
-
 <div class="container">
 
-  <!-- DATA SISWA -->
   <div class="card">
-    <h2>📝 Data Siswa</h2>
 
-    <div class="form">
-      <input type="text" id="nama" placeholder="Nama siswa">
-      <input type="number" id="nilai" placeholder="Nilai">
-      <button class="btn-orange" onclick="tambahSiswa()">
-        + Tambah
-      </button>
+    <h1>📚 Tugas Algoritma dan Pemrograman</h1>
+
+    <div class="identitas">
+      <p>Nama: <strong>Kristiana</strong></p>
+      <p>NIM: <strong>31250006</strong></p>
     </div>
 
-    <table>
-      <thead>
-        <tr>
-          <th>No</th>
-          <th>Nama</th>
-          <th>Nilai</th>
-          <th>Aksi</th>
-        </tr>
-      </thead>
+    <h2>📋 Daftar Tugas</h2>
 
-      <tbody id="tabelSiswa"></tbody>
-    </table>
+    <div class="daftar">
 
-    <h2 style="margin-top:25px;">📊 Array Nilai</h2>
-    <div class="array" id="arrayNilai"></div>
-  </div>
-
-
-  <!-- FLOWCHART -->
-  <div class="card">
-    <h2>🔄 Flowchart Linear Search Top 3</h2>
-
-    <p style="margin-bottom:15px;">
-      Klik setiap bagian flowchart untuk melihat penjelasan prosesnya.
-    </p>
-
-    <div class="flowchart">
-
-      <div class="flow-node flow-start"
-           onclick="bukaModal('Mulai')">
-        MULAI
-      </div>
-
-      <div class="arrow">↓</div>
-
-      <div class="flow-node"
-           onclick="bukaModal('Input')">
-        📝 Input Data Siswa
-      </div>
-
-      <div class="arrow">↓</div>
-
-      <div class="flow-node"
-           onclick="bukaModal('Salin')">
-        📋 Salin Data
-      </div>
-
-      <div class="arrow">↓</div>
-
-      <div class="flow-node"
-           onclick="bukaModal('K')">
-        🔢 k = 1
-      </div>
-
-      <div class="arrow">↓</div>
-
-      <div class="decision-wrap">
-        <div class="flow-decision"
-             onclick="bukaModal('Keputusan')">
-          <span>Apakah<br>k ≤ 3?</span>
+      <a href="minggu-01/">
+        <div class="nomor">01</div>
+        <div>
+          Minggu 01
+          <span class="keterangan">Tugas Minggu 01</span>
         </div>
-      </div>
+      </a>
 
-      <div class="arrow">↓</div>
+      <a href="minggu-02/">
+        <div class="nomor">02</div>
+        <div>
+          Minggu 02
+          <span class="keterangan">Tugas Minggu 02</span>
+        </div>
+      </a>
 
-      <div class="flow-node"
-           onclick="bukaModal('Maksimum')">
-        🔎 Ambil Nilai Pertama<br>
-        sebagai Maksimum Sementara
-      </div>
+      <a href="minggu-03/">
+        <div class="nomor">03</div>
+        <div>
+          Minggu 03
+          <span class="keterangan">Tugas Minggu 03</span>
+        </div>
+      </a>
 
-      <div class="arrow">↓</div>
+      <a href="minggu-04/">
+        <div class="nomor">04</div>
+        <div>
+          Minggu 04
+          <span class="keterangan">Peringkat Kelas — Linear Search</span>
+        </div>
+      </a>
 
-      <div class="flow-node"
-           onclick="bukaModal('Bandingkan')">
-        🔍 Bandingkan Data<br>
-        Satu per Satu
-      </div>
+      <a href="minggu-05/">
+        <div class="nomor">05</div>
+        <div>
+          Minggu 05
+          <span class="keterangan">Tugas Minggu 05</span>
+        </div>
+      </a>
 
-      <div class="arrow">↓</div>
-
-      <div class="flow-node"
-           onclick="bukaModal('Simpan')">
-        💾 Simpan Nilai Terbesar
-      </div>
-
-      <div class="arrow">↓</div>
-
-      <div class="flow-node"
-           onclick="bukaModal('Hapus')">
-        🗑️ Hapus Data yang<br>
-        Sudah Dipilih
-      </div>
-
-      <div class="arrow">↓</div>
-
-      <div class="flow-node"
-           onclick="bukaModal('TambahK')">
-        ➕ k = k + 1
-      </div>
-
-      <div class="arrow">↩️</div>
-
-      <div class="flow-node"
-           onclick="bukaModal('Tampil')">
-        🏆 Tampilkan 3 Nilai Terbesar
-      </div>
-
-      <div class="arrow">↓</div>
-
-      <div class="flow-node flow-end"
-           onclick="bukaModal('Selesai')">
-        SELESAI
-      </div>
+      <a href="minggu-06/">
+        <div class="nomor">06</div>
+        <div>
+          Minggu 06
+          <span class="keterangan">Tugas Minggu 06</span>
+        </div>
+      </a>
 
     </div>
-  </div>
-
-
-  <!-- BUTTON -->
-  <div class="card" style="text-align:center;">
-    <h2>🚀 Jalankan Peringkat</h2>
-
-    <p style="margin-bottom:18px;">
-      Klik tombol untuk mencari 3 nilai terbesar menggunakan
-      algoritma Linear Search.
-    </p>
-
-    <button class="btn-orange"
-            style="font-size:18px;padding:15px 30px;"
-            onclick="hitungPeringkat()">
-      🏆 Tampilkan Peringkat
-    </button>
-  </div>
-
-
-  <!-- HASIL -->
-  <div class="card result" id="hasil">
-
-    <div class="selamat">
-      🎉 SELAMAT! 🎉
-    </div>
-
-    <h2>3 Nilai Terbesar</h2>
-
-    <div class="podium" id="podium"></div>
 
   </div>
+
+  <footer>
+    © 2026 — Algoritma dan Pemrograman
+  </footer>
 
 </div>
-
-
-<!-- MODAL -->
-<div class="modal" id="modal">
-
-  <div class="modal-box">
-
-    <div class="modal-icon" id="modalIcon"></div>
-
-    <h2 id="modalTitle"></h2>
-
-    <p id="modalText"></p>
-
-    <button class="btn-orange"
-            onclick="tutupModal()">
-      Mengerti
-    </button>
-
-  </div>
-
-</div>
-
-
-<script>
-
-/* =========================
-   DATA AWAL
-========================= */
-
-let siswa = [
-  {nama:"Andi", nilai:78},
-  {nama:"Budi", nilai:92},
-  {nama:"Citra", nilai:85},
-  {nama:"Dewi", nilai:67},
-  {nama:"Eka", nilai:95},
-  {nama:"Fajar", nilai:81},
-  {nama:"Gita", nilai:88},
-  {nama:"Hendra", nilai:73}
-];
-
-
-/* =========================
-   TAMPILKAN DATA
-========================= */
-
-function tampilkanData(){
-
-  const tabel =
-    document.getElementById("tabelSiswa");
-
-  const array =
-    document.getElementById("arrayNilai");
-
-  tabel.innerHTML = "";
-  array.innerHTML = "";
-
-  siswa.forEach((item,index)=>{
-
-    tabel.innerHTML += `
-      <tr>
-        <td>${index+1}</td>
-        <td>${item.nama}</td>
-        <td>${item.nilai}</td>
-        <td>
-          <button
-            class="btn-danger"
-            onclick="hapusSiswa(${index})">
-            Hapus
-          </button>
-        </td>
-      </tr>
-    `;
-
-    array.innerHTML += `
-      <div class="array-item">
-        ${item.nama}
-        <strong>${item.nilai}</strong>
-      </div>
-    `;
-
-  });
-
-}
-
-
-/* =========================
-   TAMBAH SISWA
-========================= */
-
-function tambahSiswa(){
-
-  const nama =
-    document.getElementById("nama").value.trim();
-
-  const nilai =
-    Number(document.getElementById("nilai").value);
-
-  if(nama === "" || nilai === ""){
-
-    alert("Nama dan nilai harus diisi!");
-
-    return;
-  }
-
-  if(nilai < 0 || nilai > 100){
-
-    alert("Nilai harus antara 0 sampai 100!");
-
-    return;
-  }
-
-  siswa.push({
-    nama:nama,
-    nilai:nilai
-  });
-
-  document.getElementById("nama").value = "";
-  document.getElementById("nilai").value = "";
-
-  tampilkanData();
-
-}
-
-
-/* =========================
-   HAPUS SISWA
-========================= */
-
-function hapusSiswa(index){
-
-  siswa.splice(index,1);
-
-  tampilkanData();
-
-}
-
-
-/* =========================
-   PENJELASAN FLOWCHART
-========================= */
-
-const penjelasan = {
-
-  Mulai:[
-    "▶️",
-    "Mulai",
-    "Proses algoritma dimulai. Program siap menerima dan mengolah data nilai siswa."
-  ],
-
-  Input:[
-    "📝",
-    "Input Data Siswa",
-    "Program menerima data siswa berupa nama dan nilai yang akan digunakan dalam proses pencarian."
-  ],
-
-  Salin:[
-    "📋",
-    "Salin Data",
-    "Data siswa disalin menjadi data yang masih tersedia untuk proses pencarian."
-  ],
-
-  K:[
-    "🔢",
-    "k = 1",
-    "Variabel k digunakan untuk menghitung proses pencarian. Nilai awal k adalah 1."
-  ],
-
-  Keputusan:[
-    "❓",
-    "Apakah k ≤ 3?",
-    "Program mengecek apakah sudah ditemukan 3 nilai terbesar. Jika belum, proses pencarian dilanjutkan."
-  ],
-
-  Maksimum:[
-    "🔎",
-    "Maksimum Sementara",
-    "Data pertama yang masih tersedia digunakan sebagai nilai maksimum sementara."
-  ],
-
-  Bandingkan:[
-    "🔍",
-    "Bandingkan Data",
-    "Nilai diperiksa satu per satu menggunakan pencarian linear untuk menemukan nilai yang lebih besar."
-  ],
-
-  Simpan:[
-    "💾",
-    "Simpan Nilai Terbesar",
-    "Nilai terbesar yang ditemukan disimpan sebagai salah satu dari 3 nilai tertinggi."
-  ],
-
-  Hapus:[
-    "🗑️",
-    "Hapus Data Terpilih",
-    "Data yang sudah dipilih dikeluarkan dari data yang masih tersedia agar tidak dipilih kembali."
-  ],
-
-  TambahK:[
-    "➕",
-    "k = k + 1",
-    "Nilai k ditambah 1, kemudian proses kembali ke pengecekan untuk mencari nilai terbesar berikutnya."
-  ],
-
-  Tampil:[
-    "🏆",
-    "Tampilkan 3 Nilai Terbesar",
-    "Setelah tiga nilai terbesar ditemukan, program menampilkan hasil peringkat 1, 2, dan 3."
-  ],
-
-  Selesai:[
-    "✅",
-    "Selesai",
-    "Seluruh proses algoritma telah selesai dan hasil peringkat berhasil ditampilkan."
-  ]
-
-};
-
-
-/* =========================
-   MODAL
-========================= */
-
-function bukaModal(kunci){
-
-  const data = penjelasan[kunci];
-
-  document.getElementById("modalIcon").textContent =
-    data[0];
-
-  document.getElementById("modalTitle").textContent =
-    data[1];
-
-  document.getElementById("modalText").textContent =
-    data[2];
-
-  document.getElementById("modal")
-    .classList.add("show");
-
-}
-
-
-function tutupModal(){
-
-  document.getElementById("modal")
-    .classList.remove("show");
-
-}
-
-
-document.getElementById("modal")
-  .addEventListener("click",function(e){
-
-    if(e.target === this){
-      tutupModal();
-    }
-
-  });
-
-
-/* =========================
-   LINEAR SEARCH TOP 3
-========================= */
-
-function hitungPeringkat(){
-
-  if(siswa.length < 3){
-
-    alert("Minimal harus ada 3 siswa!");
-
-    return;
-  }
-
-
-  /*
-    Salin data agar data asli tidak berubah.
-  */
-
-  let sisa = [...siswa];
-
-  let hasil = [];
-
-
-  /*
-    Mencari 3 nilai terbesar.
-  */
-
-  for(let k = 1; k <= 3; k++){
-
-    let nilaiTerbesar = -Infinity;
-
-    let indexTerbesar = -1;
-
-
-    /*
-      Linear Search:
-      membandingkan data satu per satu.
-    */
-
-    for(let i = 0; i < sisa.length; i++){
-
-      if(sisa[i].nilai > nilaiTerbesar){
-
-        nilaiTerbesar =
-          sisa[i].nilai;
-
-        indexTerbesar = i;
-
-      }
-
-    }
-
-
-    /*
-      Simpan nilai terbesar.
-    */
-
-    hasil.push(
-      sisa[indexTerbesar]
-    );
-
-
-    /*
-      Hapus data yang sudah dipilih
-      agar tidak terpilih lagi.
-    */
-
-    sisa.splice(indexTerbesar,1);
-
-  }
-
-
-  /*
-    Urutkan dari nilai terbesar.
-  */
-
-  hasil.sort(
-    (a,b)=>b.nilai-a.nilai
-  );
-
-
-  tampilkanHasil(hasil);
-
-  mainkanMusik();
-
-  konfeti();
-
-}
-
-
-/* =========================
-   TAMPILKAN HASIL
-========================= */
-
-function tampilkanHasil(hasil){
-
-  const podium =
-    document.getElementById("podium");
-
-  podium.innerHTML = "";
-
-
-  const kelas = [
-    "rank1",
-    "rank2",
-    "rank3"
-  ];
-
-  const emoji = [
-    "🥇",
-    "🥈",
-    "🥉"
-  ];
-
-
-  hasil.forEach((item,index)=>{
-
-    podium.innerHTML += `
-      <div class="rank ${kelas[index]}">
-
-        <h3>
-          ${emoji[index]} Juara ${index+1}
-        </h3>
-
-        <div class="nama">
-          ${item.nama}
-        </div>
-
-        <div class="nilai">
-          ${item.nilai}
-        </div>
-
-      </div>
-    `;
-
-  });
-
-
-  const hasilBox =
-    document.getElementById("hasil");
-
-  hasilBox.classList.add("show");
-
-
-  setTimeout(()=>{
-
-    hasilBox.scrollIntoView({
-      behavior:"smooth",
-      block:"center"
-    });
-
-  },100);
-
-}
-
-
-/* =========================
-   MUSIK
-========================= */
-
-function mainkanMusik(){
-
-  try{
-
-    const AudioContext =
-      window.AudioContext ||
-      window.webkitAudioContext;
-
-    const audio =
-      new AudioContext();
-
-
-    const notes = [
-
-      [523.25,0],
-      [659.25,.18],
-      [783.99,.36],
-      [1046.5,.54],
-      [783.99,.76],
-      [1046.5,.94]
-
-    ];
-
-
-    notes.forEach(note=>{
-
-      const oscillator =
-        audio.createOscillator();
-
-      const gain =
-        audio.createGain();
-
-
-      oscillator.frequency.value =
-        note[0];
-
-      oscillator.type =
-        "sine";
-
-
-      oscillator.connect(gain);
-
-      gain.connect(audio.destination);
-
-
-      const waktu =
-        audio.currentTime + note[1];
-
-
-      gain.gain.setValueAtTime(
-        0.0001,
-        waktu
-      );
-
-      gain.gain.exponentialRampToValueAtTime(
-        0.18,
-        waktu + 0.02
-      );
-
-      gain.gain.exponentialRampToValueAtTime(
-        0.0001,
-        waktu + 0.18
-      );
-
-
-      oscillator.start(waktu);
-
-      oscillator.stop(waktu + 0.2);
-
-    });
-
-  }catch(error){
-
-    console.log("Audio tidak tersedia.");
-
-  }
-
-}
-
-
-/* =========================
-   CONFETTI
-========================= */
-
-function konfeti(){
-
-  const simbol = [
-    "🎉",
-    "✨",
-    "🎊",
-    "⭐",
-    "🥳"
-  ];
-
-
-  for(let i=0;i<35;i++){
-
-    const conf =
-      document.createElement("div");
-
-    conf.className =
-      "confetti";
-
-    conf.textContent =
-      simbol[
-        Math.floor(
-          Math.random()*simbol.length
-        )
-      ];
-
-
-    conf.style.left =
-      Math.random()*100 + "vw";
-
-
-    conf.style.animationDuration =
-      (2 + Math.random()*2) + "s";
-
-
-    conf.style.animationDelay =
-      Math.random() + "s";
-
-
-    document.body.appendChild(conf);
-
-
-    setTimeout(()=>{
-
-      conf.remove();
-
-    },5000);
-
-  }
-
-}
-
-
-/* =========================
-   JALANKAN SAAT PERTAMA
-========================= */
-
-tampilkanData();
-
-</script>
 
 </body>
 </html>
