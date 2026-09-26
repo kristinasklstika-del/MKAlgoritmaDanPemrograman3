@@ -3,382 +3,371 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Peringkat Kelas - Linear Search</title>
+<title>Peringkat Kelas — Linear Search Top 3</title>
 
 <style>
 *{
-    box-sizing:border-box;
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
 }
 
 body{
-    margin:0;
-    font-family:Arial,Helvetica,sans-serif;
-    background:linear-gradient(135deg,#eef5ff,#f8fbff);
-    color:#263238;
+  font-family:Arial, sans-serif;
+  background:#fff8f0;
+  color:#3d2b1f;
+  line-height:1.6;
 }
 
 header{
-    background:linear-gradient(135deg,#164e78,#2474a6);
-    color:white;
-    padding:40px 20px;
-    text-align:center;
-    box-shadow:0 5px 20px rgba(0,0,0,.15);
+  background:linear-gradient(135deg,#ff7a00,#ff9f43);
+  color:white;
+  padding:35px 20px;
+  text-align:center;
+  box-shadow:0 5px 15px rgba(0,0,0,.12);
 }
 
 header h1{
-    margin:0;
-    font-size:36px;
+  font-size:32px;
+  margin-bottom:8px;
 }
 
 header p{
-    margin:8px 0 0;
-    font-size:17px;
+  font-size:16px;
 }
 
 .container{
-    width:92%;
-    max-width:1100px;
-    margin:30px auto;
+  max-width:1100px;
+  margin:30px auto;
+  padding:0 20px;
 }
 
 .card{
-    background:white;
-    border-radius:20px;
-    padding:28px;
-    margin-bottom:25px;
-    box-shadow:0 8px 25px rgba(0,0,0,.08);
+  background:white;
+  border-radius:18px;
+  padding:25px;
+  margin-bottom:25px;
+  box-shadow:0 5px 18px rgba(0,0,0,.08);
+  border:1px solid #ffe1c2;
 }
 
 .card h2{
-    color:#164e78;
-    margin-top:0;
-    border-left:6px solid #f2b705;
-    padding-left:12px;
+  color:#e96500;
+  margin-bottom:18px;
 }
 
-.intro{
-    line-height:1.7;
-    color:#555;
-}
-
-/* ARRAY */
-
-.array-title{
-    text-align:center;
-    font-size:20px;
-    font-weight:bold;
-    color:#164e78;
-    margin-bottom:15px;
-}
-
-.array-box{
-    display:flex;
-    flex-wrap:wrap;
-    justify-content:center;
-    gap:12px;
-    margin:20px 0;
-}
-
-.array-item{
-    width:72px;
-    height:60px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background:#edf6ff;
-    border:2px solid #2474a6;
-    border-radius:12px;
-    font-size:22px;
-    font-weight:bold;
-    transition:.3s;
-}
-
-.array-item.active{
-    background:#f2b705;
-    color:white;
-    transform:scale(1.12);
-    box-shadow:0 5px 15px rgba(242,183,5,.4);
-}
-
-/* FLOWCHART */
-
-.flowchart{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:10px;
-    margin-top:25px;
-}
-
-.flow-step{
-    width:300px;
-    min-height:58px;
-    padding:16px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    background:#f7fbff;
-    border:3px solid #2474a6;
-    font-weight:bold;
-    color:#164e78;
-    cursor:pointer;
-    transition:.25s;
-    box-shadow:0 4px 10px rgba(0,0,0,.07);
-}
-
-.flow-step:hover{
-    transform:scale(1.04);
-    background:#e6f3ff;
-}
-
-.flow-step.active{
-    background:#2474a6;
-    color:white;
-    transform:scale(1.05);
-    box-shadow:0 7px 18px rgba(36,116,166,.3);
-}
-
-.start{
-    border-radius:35px;
-}
-
-.process{
-    border-radius:8px;
-}
-
-.decision{
-    width:230px;
-    height:90px;
-    transform:rotate(45deg);
-    border-color:#e3a800;
-    background:#fff8df;
-}
-
-.decision span{
-    transform:rotate(-45deg);
-}
-
-.decision:hover{
-    transform:rotate(45deg) scale(1.04);
-}
-
-.arrow{
-    font-size:25px;
-    color:#2474a6;
-    font-weight:bold;
-}
-
-/* HASIL ARRAY */
-
-.array-result{
-    margin-top:25px;
-    padding:25px;
-    background:#f7fbff;
-    border:2px dashed #2474a6;
-    border-radius:16px;
-    display:none;
-}
-
-.mini-note{
-    text-align:center;
-    color:#666;
-}
-
-.top3-box{
-    display:flex;
-    justify-content:center;
-    gap:15px;
-    flex-wrap:wrap;
-}
-
-.top-number{
-    padding:15px 25px;
-    background:white;
-    border-radius:12px;
-    border:2px solid #f2b705;
-    font-size:22px;
-    font-weight:bold;
-    color:#164e78;
-}
-
-/* DATA SISWA */
-
-.input-area{
-    display:flex;
-    gap:10px;
-    flex-wrap:wrap;
+.form{
+  display:grid;
+  grid-template-columns:1fr 180px auto;
+  gap:12px;
 }
 
 input{
-    flex:1;
-    min-width:200px;
-    padding:13px;
-    border:1px solid #ccc;
-    border-radius:9px;
-    font-size:15px;
+  padding:12px 14px;
+  border:2px solid #ffd1a3;
+  border-radius:10px;
+  outline:none;
+  font-size:15px;
+}
+
+input:focus{
+  border-color:#ff851b;
 }
 
 button{
-    border:0;
-    border-radius:9px;
-    padding:13px 20px;
-    font-weight:bold;
-    cursor:pointer;
-    transition:.2s;
+  border:none;
+  border-radius:10px;
+  padding:12px 18px;
+  cursor:pointer;
+  font-weight:bold;
+  transition:.2s;
 }
 
 button:hover{
-    transform:translateY(-2px);
+  transform:translateY(-2px);
 }
 
-.btn-add{
-    background:#2474a6;
-    color:white;
+.btn-orange{
+  background:#ff7a00;
+  color:white;
 }
 
-.btn-search{
-    width:100%;
-    margin-top:15px;
-    background:linear-gradient(135deg,#f2b705,#e39d00);
-    color:white;
-    font-size:17px;
-    padding:16px;
+.btn-orange:hover{
+  background:#e96500;
+}
+
+.btn-danger{
+  background:#ffe1df;
+  color:#c0392b;
+  padding:7px 12px;
 }
 
 table{
-    width:100%;
-    border-collapse:collapse;
-    margin-top:20px;
-    overflow:hidden;
-    border-radius:10px;
+  width:100%;
+  border-collapse:collapse;
+  margin-top:20px;
 }
 
 th{
-    background:#164e78;
-    color:white;
-    padding:13px;
+  background:#fff0df;
+  color:#d85c00;
 }
 
-td{
-    padding:12px;
-    border-bottom:1px solid #ddd;
-    text-align:center;
+th,td{
+  padding:12px;
+  border-bottom:1px solid #f2dfce;
+  text-align:center;
 }
 
-tr:nth-child(even){
-    background:#f7f9fb;
+.array{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  margin-top:20px;
 }
 
-.delete{
-    background:#d9534f;
-    color:white;
-    padding:7px 12px;
+.array-item{
+  background:#fff0df;
+  border:2px solid #ffad66;
+  border-radius:12px;
+  padding:12px 18px;
+  text-align:center;
+  min-width:100px;
 }
 
-/* PERINGKAT */
-
-.hasil{
-    display:none;
-    text-align:center;
-    padding:35px 20px;
-    background:linear-gradient(135deg,#fffdf1,#fff8d9);
-    border:3px solid #f2b705;
-    border-radius:22px;
-    box-shadow:0 10px 30px rgba(242,183,5,.2);
+.array-item strong{
+  display:block;
+  color:#e96500;
+  font-size:20px;
 }
 
-.selamat{
-    font-size:38px;
-    font-weight:900;
-    color:#164e78;
-    animation:pop .6s ease;
+/* FLOWCHART */
+.flowchart{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:10px;
+  margin-top:25px;
 }
 
-.sub-selamat{
-    font-size:18px;
-    color:#666;
-    margin:10px 0 28px;
+.flow-node{
+  min-width:250px;
+  max-width:330px;
+  padding:14px 20px;
+  background:white;
+  border:3px solid #ff851b;
+  border-radius:14px;
+  text-align:center;
+  font-weight:bold;
+  color:#914500;
+  cursor:pointer;
+  box-shadow:0 4px 10px rgba(255,122,0,.13);
+  transition:.2s;
+  position:relative;
+}
+
+.flow-node:hover{
+  background:#fff0df;
+  transform:scale(1.03);
+}
+
+/* START / END */
+.flow-start,
+.flow-end{
+  border-radius:50px;
+  background:#ff7a00;
+  color:white;
+  border-color:#e96500;
+}
+
+/* DECISION DIAMOND */
+.decision-wrap{
+  width:170px;
+  height:100px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.flow-decision{
+  width:115px;
+  height:115px;
+  background:#fff0df;
+  border:3px solid #ff851b;
+  transform:rotate(45deg);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  box-shadow:0 4px 10px rgba(255,122,0,.13);
+}
+
+.flow-decision span{
+  transform:rotate(-45deg);
+  width:90px;
+  text-align:center;
+  font-weight:bold;
+  color:#914500;
+  font-size:13px;
+}
+
+.arrow{
+  color:#ff7a00;
+  font-size:25px;
+  font-weight:bold;
+}
+
+/* RESULT */
+.result{
+  display:none;
+  text-align:center;
+  background:linear-gradient(135deg,#fff7ed,#fff);
+  border:3px solid #ffb15c;
+}
+
+.result.show{
+  display:block;
+  animation:pop .5s ease;
 }
 
 @keyframes pop{
-    0%{transform:scale(.5);opacity:0}
-    100%{transform:scale(1);opacity:1}
+  from{
+    transform:scale(.8);
+    opacity:0;
+  }
+  to{
+    transform:scale(1);
+    opacity:1;
+  }
+}
+
+.selamat{
+  font-size:30px;
+  color:#e96500;
+  font-weight:bold;
+  margin-bottom:25px;
 }
 
 .podium{
-    display:flex;
-    justify-content:center;
-    align-items:end;
-    gap:18px;
-    flex-wrap:wrap;
+  display:flex;
+  justify-content:center;
+  align-items:flex-end;
+  gap:15px;
+  margin-top:20px;
 }
 
 .rank{
-    width:190px;
-    padding:25px 15px;
-    border-radius:18px;
-    color:white;
-    box-shadow:0 8px 18px rgba(0,0,0,.15);
+  width:180px;
+  border-radius:18px 18px 8px 8px;
+  padding:20px 10px;
+  box-shadow:0 5px 15px rgba(0,0,0,.12);
 }
 
 .rank h3{
-    margin:10px 0;
+  font-size:25px;
 }
 
-.rank .medal{
-    font-size:40px;
+.rank .nama{
+  font-size:20px;
+  font-weight:bold;
+  margin:10px 0;
 }
 
-.rank .name{
-    font-size:20px;
-    font-weight:bold;
-}
-
-.rank .score{
-    font-size:30px;
-    font-weight:bold;
-    margin-top:8px;
+.rank .nilai{
+  font-size:25px;
+  font-weight:bold;
 }
 
 .rank1{
-    background:linear-gradient(135deg,#e4ad16,#c98f00);
-    transform:translateY(-20px);
+  background:#fff0c7;
+  min-height:230px;
 }
 
 .rank2{
-    background:linear-gradient(135deg,#aab4bf,#7d8995);
+  background:#eeeeee;
+  min-height:190px;
 }
 
 .rank3{
-    background:linear-gradient(135deg,#c88355,#a85e36);
+  background:#f5dfc8;
+  min-height:160px;
 }
 
-/* FOOTER */
-
-footer{
-    text-align:center;
-    padding:30px;
-    color:#777;
+/* MODAL */
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.5);
+  z-index:1000;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
 }
 
-@media(max-width:650px){
+.modal.show{
+  display:flex;
+}
 
-    header h1{
-        font-size:27px;
-    }
+.modal-box{
+  background:white;
+  max-width:500px;
+  width:100%;
+  border-radius:22px;
+  padding:30px;
+  text-align:center;
+  animation:pop .3s ease;
+}
 
-    .flow-step{
-        width:250px;
-    }
+.modal-icon{
+  font-size:55px;
+  margin-bottom:10px;
+}
 
-    .podium{
-        align-items:center;
-    }
+.modal-box h2{
+  color:#e96500;
+  margin-bottom:12px;
+}
 
-    .rank1{
-        transform:none;
-    }
+.modal-box p{
+  color:#5f5148;
+  margin-bottom:22px;
+}
+
+.confetti{
+  position:fixed;
+  top:-30px;
+  font-size:25px;
+  z-index:2000;
+  animation:jatuh 3s linear forwards;
+  pointer-events:none;
+}
+
+@keyframes jatuh{
+  to{
+    transform:translateY(110vh) rotate(720deg);
+    opacity:0;
+  }
+}
+
+@media(max-width:700px){
+  .form{
+    grid-template-columns:1fr;
+  }
+
+  .podium{
+    flex-direction:column;
+    align-items:center;
+  }
+
+  .rank{
+    width:90%;
+    min-height:auto!important;
+  }
+
+  header h1{
+    font-size:25px;
+  }
 }
 </style>
 </head>
@@ -386,182 +375,195 @@ footer{
 <body>
 
 <header>
-    <h1>🏆 Peringkat Kelas</h1>
-    <p>Algoritma Linear Search - Mencari 3 Angka Terbesar</p>
-    <p>Tugas Algoritma dan Pemrograman</p>
+  <h1>🏆 Peringkat Kelas</h1>
+  <p>Algoritma Linear Search — Mencari 3 Nilai Terbesar</p>
 </header>
 
 <div class="container">
 
-<!-- PENDAHULUAN -->
+  <!-- DATA SISWA -->
+  <div class="card">
+    <h2>📝 Data Siswa</h2>
 
-<div class="card">
-    <h2>📌 Tentang Program</h2>
-
-    <p class="intro">
-        Website ini merupakan pengembangan dari flowchart algoritma
-        <b>Linear Search</b> untuk mencari 3 angka terbesar dari sebuah array.
-        Program kemudian dikembangkan menjadi website peringkat kelas.
-    </p>
-</div>
-
-
-<!-- ARRAY -->
-
-<div class="card">
-
-    <h2>🔢 Array Nilai</h2>
-
-    <div class="array-title">
-        Data nilai siswa
+    <div class="form">
+      <input type="text" id="nama" placeholder="Nama siswa">
+      <input type="number" id="nilai" placeholder="Nilai">
+      <button class="btn-orange" onclick="tambahSiswa()">
+        + Tambah
+      </button>
     </div>
 
-    <div class="array-box" id="arrayBox"></div>
+    <table>
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Nama</th>
+          <th>Nilai</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
 
-    <div class="array-result" id="arrayResult">
+      <tbody id="tabelSiswa"></tbody>
+    </table>
 
-        <div class="array-title">
-            ✨ Hasil Pencarian 3 Angka Terbesar
-        </div>
-
-        <p class="mini-note">
-            Hasil dari proses Linear Search:
-        </p>
-
-        <div class="top3-box" id="top3Box"></div>
-
-    </div>
-
-</div>
+    <h2 style="margin-top:25px;">📊 Array Nilai</h2>
+    <div class="array" id="arrayNilai"></div>
+  </div>
 
 
-<!-- FLOWCHART -->
+  <!-- FLOWCHART -->
+  <div class="card">
+    <h2>🔄 Flowchart Linear Search Top 3</h2>
 
-<div class="card">
-
-    <h2>🔄 Flowchart Linear Search</h2>
-
-    <p class="intro">
-        Klik bagian flowchart untuk melihat proses pencarian.
+    <p style="margin-bottom:15px;">
+      Klik setiap bagian flowchart untuk melihat penjelasan prosesnya.
     </p>
 
     <div class="flowchart">
 
-        <div class="flow-step start" onclick="klikFlow(this,1)">
-            MULAI
+      <div class="flow-node flow-start"
+           onclick="bukaModal('Mulai')">
+        MULAI
+      </div>
+
+      <div class="arrow">↓</div>
+
+      <div class="flow-node"
+           onclick="bukaModal('Input')">
+        📝 Input Data Siswa
+      </div>
+
+      <div class="arrow">↓</div>
+
+      <div class="flow-node"
+           onclick="bukaModal('Salin')">
+        📋 Salin Data
+      </div>
+
+      <div class="arrow">↓</div>
+
+      <div class="flow-node"
+           onclick="bukaModal('K')">
+        🔢 k = 1
+      </div>
+
+      <div class="arrow">↓</div>
+
+      <div class="decision-wrap">
+        <div class="flow-decision"
+             onclick="bukaModal('Keputusan')">
+          <span>Apakah<br>k ≤ 3?</span>
         </div>
+      </div>
 
-        <div class="arrow">↓</div>
+      <div class="arrow">↓</div>
 
-        <div class="flow-step process" onclick="klikFlow(this,2)">
-            Masukkan Array
-        </div>
+      <div class="flow-node"
+           onclick="bukaModal('Maksimum')">
+        🔎 Ambil Nilai Pertama<br>
+        sebagai Maksimum Sementara
+      </div>
 
-        <div class="arrow">↓</div>
+      <div class="arrow">↓</div>
 
-        <div class="flow-step process" onclick="klikFlow(this,3)">
-            Tentukan Nilai Terbesar
-        </div>
+      <div class="flow-node"
+           onclick="bukaModal('Bandingkan')">
+        🔍 Bandingkan Data<br>
+        Satu per Satu
+      </div>
 
-        <div class="arrow">↓</div>
+      <div class="arrow">↓</div>
 
-        <div class="flow-step decision" onclick="klikFlow(this,4)">
-            <span>Periksa Nilai Satu per Satu</span>
-        </div>
+      <div class="flow-node"
+           onclick="bukaModal('Simpan')">
+        💾 Simpan Nilai Terbesar
+      </div>
 
-        <div class="arrow">↓</div>
+      <div class="arrow">↓</div>
 
-        <div class="flow-step process" onclick="klikFlow(this,5)">
-            Simpan Nilai Terbesar
-        </div>
+      <div class="flow-node"
+           onclick="bukaModal('Hapus')">
+        🗑️ Hapus Data yang<br>
+        Sudah Dipilih
+      </div>
 
-        <div class="arrow">↓</div>
+      <div class="arrow">↓</div>
 
-        <div class="flow-step process" onclick="klikFlow(this,6)">
-            Ulangi Sampai Mendapat 3 Nilai
-        </div>
+      <div class="flow-node"
+           onclick="bukaModal('TambahK')">
+        ➕ k = k + 1
+      </div>
 
-        <div class="arrow">↓</div>
+      <div class="arrow">↩️</div>
 
-        <div class="flow-step start" onclick="klikFlow(this,7)">
-            SELESAI
-        </div>
+      <div class="flow-node"
+           onclick="bukaModal('Tampil')">
+        🏆 Tampilkan 3 Nilai Terbesar
+      </div>
+
+      <div class="arrow">↓</div>
+
+      <div class="flow-node flow-end"
+           onclick="bukaModal('Selesai')">
+        SELESAI
+      </div>
 
     </div>
+  </div>
 
-</div>
 
+  <!-- BUTTON -->
+  <div class="card" style="text-align:center;">
+    <h2>🚀 Jalankan Peringkat</h2>
 
-<!-- DATA SISWA -->
+    <p style="margin-bottom:18px;">
+      Klik tombol untuk mencari 3 nilai terbesar menggunakan
+      algoritma Linear Search.
+    </p>
 
-<div class="card">
-
-    <h2>👩‍🎓 Data Peringkat Kelas</h2>
-
-    <div class="input-area">
-
-        <input
-            type="text"
-            id="nama"
-            placeholder="Masukkan nama siswa">
-
-        <input
-            type="number"
-            id="nilai"
-            placeholder="Masukkan nilai">
-
-        <button class="btn-add" onclick="tambahSiswa()">
-            + Tambah
-        </button>
-
-    </div>
-
-    <table>
-
-        <thead>
-
-            <tr>
-                <th>No</th>
-                <th>Nama</th>
-                <th>Nilai</th>
-                <th>Aksi</th>
-            </tr>
-
-        </thead>
-
-        <tbody id="tabelSiswa"></tbody>
-
-    </table>
-
-    <button class="btn-search" onclick="hitungPeringkat()">
-        🔎 Tampilkan 3 Nilai Terbesar
+    <button class="btn-orange"
+            style="font-size:18px;padding:15px 30px;"
+            onclick="hitungPeringkat()">
+      🏆 Tampilkan Peringkat
     </button>
+  </div>
 
-</div>
 
-
-<!-- HASIL PERINGKAT -->
-
-<div class="hasil" id="hasil">
+  <!-- HASIL -->
+  <div class="card result" id="hasil">
 
     <div class="selamat">
-        🎉 SELAMAT! 🎉
+      🎉 SELAMAT! 🎉
     </div>
 
-    <div class="sub-selamat">
-        3 besar peringkat kelas berhasil ditemukan!
-    </div>
+    <h2>3 Nilai Terbesar</h2>
 
     <div class="podium" id="podium"></div>
 
-</div>
+  </div>
 
 </div>
 
 
-<footer>
-    Tugas Algoritma dan Pemrograman
-</footer>
+<!-- MODAL -->
+<div class="modal" id="modal">
+
+  <div class="modal-box">
+
+    <div class="modal-icon" id="modalIcon"></div>
+
+    <h2 id="modalTitle"></h2>
+
+    <p id="modalText"></p>
+
+    <button class="btn-orange"
+            onclick="tutupModal()">
+      Mengerti
+    </button>
+
+  </div>
+
+</div>
 
 
 <script>
@@ -571,390 +573,537 @@ footer{
 ========================= */
 
 let siswa = [
-
-    {nama:"Andi",nilai:78},
-    {nama:"Budi",nilai:92},
-    {nama:"Citra",nilai:85},
-    {nama:"Dewi",nilai:67},
-    {nama:"Eka",nilai:95},
-    {nama:"Fajar",nilai:81},
-    {nama:"Gita",nilai:88},
-    {nama:"Hendra",nilai:73}
-
+  {nama:"Andi", nilai:78},
+  {nama:"Budi", nilai:92},
+  {nama:"Citra", nilai:85},
+  {nama:"Dewi", nilai:67},
+  {nama:"Eka", nilai:95},
+  {nama:"Fajar", nilai:81},
+  {nama:"Gita", nilai:88},
+  {nama:"Hendra", nilai:73}
 ];
 
 
 /* =========================
-   ARRAY
+   TAMPILKAN DATA
 ========================= */
 
-function tampilkanArray(){
+function tampilkanData(){
 
-    let box = document.getElementById("arrayBox");
+  const tabel =
+    document.getElementById("tabelSiswa");
 
-    box.innerHTML="";
+  const array =
+    document.getElementById("arrayNilai");
 
-    siswa.forEach(function(data){
+  tabel.innerHTML = "";
+  array.innerHTML = "";
 
-        let item = document.createElement("div");
+  siswa.forEach((item,index)=>{
 
-        item.className="array-item";
+    tabel.innerHTML += `
+      <tr>
+        <td>${index+1}</td>
+        <td>${item.nama}</td>
+        <td>${item.nilai}</td>
+        <td>
+          <button
+            class="btn-danger"
+            onclick="hapusSiswa(${index})">
+            Hapus
+          </button>
+        </td>
+      </tr>
+    `;
 
-        item.textContent=data.nilai;
+    array.innerHTML += `
+      <div class="array-item">
+        ${item.nama}
+        <strong>${item.nilai}</strong>
+      </div>
+    `;
 
-        box.appendChild(item);
-
-    });
+  });
 
 }
 
 
 /* =========================
-   TABEL
-========================= */
-
-function tampilkanTabel(){
-
-    let tabel =
-        document.getElementById("tabelSiswa");
-
-    tabel.innerHTML="";
-
-    siswa.forEach(function(data,index){
-
-        let tr=document.createElement("tr");
-
-        tr.innerHTML=`
-
-            <td>${index+1}</td>
-
-            <td>${data.nama}</td>
-
-            <td>${data.nilai}</td>
-
-            <td>
-                <button
-                    class="delete"
-                    onclick="hapusSiswa(${index})">
-                    Hapus
-                </button>
-            </td>
-
-        `;
-
-        tabel.appendChild(tr);
-
-    });
-
-}
-
-
-/* =========================
-   TAMBAH DATA
+   TAMBAH SISWA
 ========================= */
 
 function tambahSiswa(){
 
-    let nama=
-        document.getElementById("nama").value.trim();
+  const nama =
+    document.getElementById("nama").value.trim();
 
-    let nilai=
-        Number(document.getElementById("nilai").value);
+  const nilai =
+    Number(document.getElementById("nilai").value);
 
-    if(nama==="" || isNaN(nilai)){
+  if(nama === "" || nilai === ""){
 
-        alert("Nama dan nilai harus diisi.");
+    alert("Nama dan nilai harus diisi!");
 
-        return;
-    }
+    return;
+  }
 
-    if(nilai<0 || nilai>100){
+  if(nilai < 0 || nilai > 100){
 
-        alert("Nilai harus antara 0 sampai 100.");
+    alert("Nilai harus antara 0 sampai 100!");
 
-        return;
-    }
+    return;
+  }
 
-    siswa.push({
-        nama:nama,
-        nilai:nilai
-    });
+  siswa.push({
+    nama:nama,
+    nilai:nilai
+  });
 
-    document.getElementById("nama").value="";
-    document.getElementById("nilai").value="";
+  document.getElementById("nama").value = "";
+  document.getElementById("nilai").value = "";
 
-    tampilkanTabel();
-    tampilkanArray();
+  tampilkanData();
 
 }
 
 
 /* =========================
-   HAPUS
+   HAPUS SISWA
 ========================= */
 
 function hapusSiswa(index){
 
-    siswa.splice(index,1);
+  siswa.splice(index,1);
 
-    tampilkanTabel();
-    tampilkanArray();
+  tampilkanData();
 
 }
 
 
 /* =========================
-   LINEAR SEARCH
+   PENJELASAN FLOWCHART
+========================= */
+
+const penjelasan = {
+
+  Mulai:[
+    "▶️",
+    "Mulai",
+    "Proses algoritma dimulai. Program siap menerima dan mengolah data nilai siswa."
+  ],
+
+  Input:[
+    "📝",
+    "Input Data Siswa",
+    "Program menerima data siswa berupa nama dan nilai yang akan digunakan dalam proses pencarian."
+  ],
+
+  Salin:[
+    "📋",
+    "Salin Data",
+    "Data siswa disalin menjadi data yang masih tersedia untuk proses pencarian."
+  ],
+
+  K:[
+    "🔢",
+    "k = 1",
+    "Variabel k digunakan untuk menghitung proses pencarian. Nilai awal k adalah 1."
+  ],
+
+  Keputusan:[
+    "❓",
+    "Apakah k ≤ 3?",
+    "Program mengecek apakah sudah ditemukan 3 nilai terbesar. Jika belum, proses pencarian dilanjutkan."
+  ],
+
+  Maksimum:[
+    "🔎",
+    "Maksimum Sementara",
+    "Data pertama yang masih tersedia digunakan sebagai nilai maksimum sementara."
+  ],
+
+  Bandingkan:[
+    "🔍",
+    "Bandingkan Data",
+    "Nilai diperiksa satu per satu menggunakan pencarian linear untuk menemukan nilai yang lebih besar."
+  ],
+
+  Simpan:[
+    "💾",
+    "Simpan Nilai Terbesar",
+    "Nilai terbesar yang ditemukan disimpan sebagai salah satu dari 3 nilai tertinggi."
+  ],
+
+  Hapus:[
+    "🗑️",
+    "Hapus Data Terpilih",
+    "Data yang sudah dipilih dikeluarkan dari data yang masih tersedia agar tidak dipilih kembali."
+  ],
+
+  TambahK:[
+    "➕",
+    "k = k + 1",
+    "Nilai k ditambah 1, kemudian proses kembali ke pengecekan untuk mencari nilai terbesar berikutnya."
+  ],
+
+  Tampil:[
+    "🏆",
+    "Tampilkan 3 Nilai Terbesar",
+    "Setelah tiga nilai terbesar ditemukan, program menampilkan hasil peringkat 1, 2, dan 3."
+  ],
+
+  Selesai:[
+    "✅",
+    "Selesai",
+    "Seluruh proses algoritma telah selesai dan hasil peringkat berhasil ditampilkan."
+  ]
+
+};
+
+
+/* =========================
+   MODAL
+========================= */
+
+function bukaModal(kunci){
+
+  const data = penjelasan[kunci];
+
+  document.getElementById("modalIcon").textContent =
+    data[0];
+
+  document.getElementById("modalTitle").textContent =
+    data[1];
+
+  document.getElementById("modalText").textContent =
+    data[2];
+
+  document.getElementById("modal")
+    .classList.add("show");
+
+}
+
+
+function tutupModal(){
+
+  document.getElementById("modal")
+    .classList.remove("show");
+
+}
+
+
+document.getElementById("modal")
+  .addEventListener("click",function(e){
+
+    if(e.target === this){
+      tutupModal();
+    }
+
+  });
+
+
+/* =========================
+   LINEAR SEARCH TOP 3
 ========================= */
 
 function hitungPeringkat(){
 
-    if(siswa.length<3){
+  if(siswa.length < 3){
 
-        alert("Minimal harus ada 3 siswa.");
+    alert("Minimal harus ada 3 siswa!");
 
-        return;
-    }
+    return;
+  }
 
-    let data=
-        [...siswa];
 
-    let hasil=[];
+  /*
+    Salin data agar data asli tidak berubah.
+  */
+
+  let sisa = [...siswa];
+
+  let hasil = [];
+
+
+  /*
+    Mencari 3 nilai terbesar.
+  */
+
+  for(let k = 1; k <= 3; k++){
+
+    let nilaiTerbesar = -Infinity;
+
+    let indexTerbesar = -1;
 
 
     /*
-       Linear Search:
-       data diperiksa satu per satu
-       untuk mencari nilai terbesar.
+      Linear Search:
+      membandingkan data satu per satu.
     */
 
-    for(let k=0;k<3;k++){
+    for(let i = 0; i < sisa.length; i++){
 
-        let terbesar=-Infinity;
+      if(sisa[i].nilai > nilaiTerbesar){
 
-        let index=-1;
+        nilaiTerbesar =
+          sisa[i].nilai;
 
+        indexTerbesar = i;
 
-        for(let i=0;i<data.length;i++){
-
-            if(data[i].nilai>terbesar){
-
-                terbesar=data[i].nilai;
-
-                index=i;
-
-            }
-
-        }
-
-
-        hasil.push(
-            data[index]
-        );
-
-
-        data.splice(
-            index,
-            1
-        );
+      }
 
     }
 
 
-    tampilkanHasil(hasil);
+    /*
+      Simpan nilai terbesar.
+    */
 
-    tampilkanHasilArray(hasil);
+    hasil.push(
+      sisa[indexTerbesar]
+    );
 
-}
+
+    /*
+      Hapus data yang sudah dipilih
+      agar tidak terpilih lagi.
+    */
+
+    sisa.splice(indexTerbesar,1);
+
+  }
 
 
-/* =========================
-   HASIL ARRAY
-========================= */
+  /*
+    Urutkan dari nilai terbesar.
+  */
 
-function tampilkanHasilArray(hasil){
+  hasil.sort(
+    (a,b)=>b.nilai-a.nilai
+  );
 
-    let result=
-        document.getElementById("arrayResult");
 
-    let box=
-        document.getElementById("top3Box");
+  tampilkanHasil(hasil);
 
-    box.innerHTML="";
+  mainkanMusik();
 
-    hasil.forEach(function(data,index){
-
-        let item=
-            document.createElement("div");
-
-        item.className="top-number";
-
-        item.innerHTML=
-            `${index+1}. ${data.nilai}`;
-
-        box.appendChild(item);
-
-    });
-
-    result.style.display="block";
+  konfeti();
 
 }
 
 
 /* =========================
-   HASIL PERINGKAT
+   TAMPILKAN HASIL
 ========================= */
 
 function tampilkanHasil(hasil){
 
-    let hasilBox=
-        document.getElementById("hasil");
+  const podium =
+    document.getElementById("podium");
 
-    let podium=
-        document.getElementById("podium");
-
-    podium.innerHTML="";
+  podium.innerHTML = "";
 
 
-    let kelas=[
-        "rank1",
-        "rank2",
-        "rank3"
-    ];
+  const kelas = [
+    "rank1",
+    "rank2",
+    "rank3"
+  ];
 
-    let medal=[
-        "🥇",
-        "🥈",
-        "🥉"
-    ];
-
-
-    hasil.forEach(function(data,index){
-
-        let kotak=
-            document.createElement("div");
-
-        kotak.className=
-            "rank "+kelas[index];
-
-        kotak.innerHTML=`
-
-            <div class="medal">
-                ${medal[index]}
-            </div>
-
-            <h3>
-                PERINGKAT ${index+1}
-            </h3>
-
-            <div class="name">
-                ${data.nama}
-            </div>
-
-            <div class="score">
-                ${data.nilai}
-            </div>
-
-        `;
-
-        podium.appendChild(kotak);
-
-    });
+  const emoji = [
+    "🥇",
+    "🥈",
+    "🥉"
+  ];
 
 
-    hasilBox.style.display="block";
+  hasil.forEach((item,index)=>{
+
+    podium.innerHTML += `
+      <div class="rank ${kelas[index]}">
+
+        <h3>
+          ${emoji[index]} Juara ${index+1}
+        </h3>
+
+        <div class="nama">
+          ${item.nama}
+        </div>
+
+        <div class="nilai">
+          ${item.nilai}
+        </div>
+
+      </div>
+    `;
+
+  });
+
+
+  const hasilBox =
+    document.getElementById("hasil");
+
+  hasilBox.classList.add("show");
+
+
+  setTimeout(()=>{
 
     hasilBox.scrollIntoView({
-        behavior:"smooth",
-        block:"center"
+      behavior:"smooth",
+      block:"center"
     });
+
+  },100);
 
 }
 
 
 /* =========================
-   FLOWCHART
+   MUSIK
 ========================= */
 
-function klikFlow(element,nomor){
+function mainkanMusik(){
 
-    let semua=
-        document.querySelectorAll(".flow-step");
+  try{
 
-    semua.forEach(function(item){
+    const AudioContext =
+      window.AudioContext ||
+      window.webkitAudioContext;
 
-        item.classList.remove("active");
+    const audio =
+      new AudioContext();
+
+
+    const notes = [
+
+      [523.25,0],
+      [659.25,.18],
+      [783.99,.36],
+      [1046.5,.54],
+      [783.99,.76],
+      [1046.5,.94]
+
+    ];
+
+
+    notes.forEach(note=>{
+
+      const oscillator =
+        audio.createOscillator();
+
+      const gain =
+        audio.createGain();
+
+
+      oscillator.frequency.value =
+        note[0];
+
+      oscillator.type =
+        "sine";
+
+
+      oscillator.connect(gain);
+
+      gain.connect(audio.destination);
+
+
+      const waktu =
+        audio.currentTime + note[1];
+
+
+      gain.gain.setValueAtTime(
+        0.0001,
+        waktu
+      );
+
+      gain.gain.exponentialRampToValueAtTime(
+        0.18,
+        waktu + 0.02
+      );
+
+      gain.gain.exponentialRampToValueAtTime(
+        0.0001,
+        waktu + 0.18
+      );
+
+
+      oscillator.start(waktu);
+
+      oscillator.stop(waktu + 0.2);
 
     });
 
+  }catch(error){
 
-    element.classList.add("active");
+    console.log("Audio tidak tersedia.");
 
-
-    /*
-       Saat flowchart diklik,
-       array akan diberi efek
-       untuk menunjukkan proses
-       pemeriksaan nilai.
-    */
-
-    if(nomor===4){
-
-        let angka=
-            document.querySelectorAll(".array-item");
-
-        angka.forEach(function(item,index){
-
-            setTimeout(function(){
-
-                item.classList.add("active");
-
-                setTimeout(function(){
-
-                    item.classList.remove("active");
-
-                },350);
-
-            },index*150);
-
-        });
-
-    }
-
-
-    if(nomor===6){
-
-        let angka=
-            document.querySelectorAll(".array-item");
-
-        angka.forEach(function(item){
-
-            item.classList.add("active");
-
-        });
-
-        setTimeout(function(){
-
-            angka.forEach(function(item){
-
-                item.classList.remove("active");
-
-            });
-
-        },700);
-
-    }
+  }
 
 }
 
 
 /* =========================
-   JALANKAN SAAT DIBUKA
+   CONFETTI
 ========================= */
 
-tampilkanTabel();
+function konfeti(){
 
-tampilkanArray();
+  const simbol = [
+    "🎉",
+    "✨",
+    "🎊",
+    "⭐",
+    "🥳"
+  ];
+
+
+  for(let i=0;i<35;i++){
+
+    const conf =
+      document.createElement("div");
+
+    conf.className =
+      "confetti";
+
+    conf.textContent =
+      simbol[
+        Math.floor(
+          Math.random()*simbol.length
+        )
+      ];
+
+
+    conf.style.left =
+      Math.random()*100 + "vw";
+
+
+    conf.style.animationDuration =
+      (2 + Math.random()*2) + "s";
+
+
+    conf.style.animationDelay =
+      Math.random() + "s";
+
+
+    document.body.appendChild(conf);
+
+
+    setTimeout(()=>{
+
+      conf.remove();
+
+    },5000);
+
+  }
+
+}
+
+
+/* =========================
+   JALANKAN SAAT PERTAMA
+========================= */
+
+tampilkanData();
 
 </script>
 
