@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Peringkat Kelas - Linear Search</title>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:linear-gradient(135deg,#eef5ff,#f8fbff);
+    color:#263238;
+}
+
+header{
+    background:linear-gradient(135deg,#164e78,#2474a6);
+    color:white;
+    padding:40px 20px;
+    text-align:center;
+    box-shadow:0 5px 20px rgba(0,0,0,.15);
+}
+
+header h1{
+    margin:0;
+    font-size:36px;
+}
+
+header p{
+    margin:8px 0 0;
+    font-size:17px;
+}
+
+.container{
+    width:92%;
+    max-width:1100px;
+    margin:30px auto;
+}
+
+.card{
+    background:white;
+    border-radius:20px;
+    padding:28px;
+    margin-bottom:25px;
+    box-shadow:0 8px 25px rgba(0,0,0,.08);
+}
+
+.card h2{
+    color:#164e78;
+    margin-top:0;
+    border-left:6px solid #f2b705;
+    padding-left:12px;
+}
+
+.intro{
+    line-height:1.7;
+    color:#555;
+}
+
+/* ARRAY */
+
+.array-title{
+    text-align:center;
+    font-size:20px;
+    font-weight:bold;
+    color:#164e78;
+    margin-bottom:15px;
+}
+
+.array-box{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:12px;
+    margin:20px 0;
+}
+
+.array-item{
+    width:72px;
+    height:60px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#edf6ff;
+    border:2px solid #2474a6;
+    border-radius:12px;
+    font-size:22px;
+    font-weight:bold;
+    transition:.3s;
+}
+
+.array-item.active{
+    background:#f2b705;
+    color:white;
+    transform:scale(1.12);
+    box-shadow:0 5px 15px rgba(242,183,5,.4);
+}
+
+/* FLOWCHART */
+
+.flowchart{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:10px;
+    margin-top:25px;
+}
+
+.flow-step{
+    width:300px;
+    min-height:58px;
+    padding:16px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    background:#f7fbff;
+    border:3px solid #2474a6;
+    font-weight:bold;
+    color:#164e78;
+    cursor:pointer;
+    transition:.25s;
+    box-shadow:0 4px 10px rgba(0,0,0,.07);
+}
+
+.flow-step:hover{
+    transform:scale(1.04);
+    background:#e6f3ff;
+}
+
+.flow-step.active{
+    background:#2474a6;
+    color:white;
+    transform:scale(1.05);
+    box-shadow:0 7px 18px rgba(36,116,166,.3);
+}
+
+.start{
+    border-radius:35px;
+}
+
+.process{
+    border-radius:8px;
+}
+
+.decision{
+    width:230px;
+    height:90px;
+    transform:rotate(45deg);
+    border-color:#e3a800;
+    background:#fff8df;
+}
+
+.decision span{
+    transform:rotate(-45deg);
+}
+
+.decision:hover{
+    transform:rotate(45deg) scale(1.04);
+}
+
+.arrow{
+    font-size:25px;
+    color:#2474a6;
+    font-weight:bold;
+}
+
+/* HASIL ARRAY */
+
+.array-result{
+    margin-top:25px;
+    padding:25px;
+    background:#f7fbff;
+    border:2px dashed #2474a6;
+    border-radius:16px;
+    display:none;
+}
+
+.mini-note{
+    text-align:center;
+    color:#666;
+}
+
+.top3-box{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    flex-wrap:wrap;
+}
+
+.top-number{
+    padding:15px 25px;
+    background:white;
+    border-radius:12px;
+    border:2px solid #f2b705;
+    font-size:22px;
+    font-weight:bold;
+    color:#164e78;
+}
+
+/* DATA SISWA */
+
+.input-area{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+input{
+    flex:1;
+    min-width:200px;
+    padding:13px;
+    border:1px solid #ccc;
+    border-radius:9px;
+    font-size:15px;
+}
+
+button{
+    border:0;
+    border-radius:9px;
+    padding:13px 20px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.2s;
+}
+
+button:hover{
+    transform:translateY(-2px);
+}
+
+.btn-add{
+    background:#2474a6;
+    color:white;
+}
+
+.btn-search{
+    width:100%;
+    margin-top:15px;
+    background:linear-gradient(135deg,#f2b705,#e39d00);
+    color:white;
+    font-size:17px;
+    padding:16px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
+    overflow:hidden;
+    border-radius:10px;
+}
+
+th{
+    background:#164e78;
+    color:white;
+    padding:13px;
+}
+
+td{
+    padding:12px;
+    border-bottom:1px solid #ddd;
+    text-align:center;
+}
+
+tr:nth-child(even){
+    background:#f7f9fb;
+}
+
+.delete{
+    background:#d9534f;
+    color:white;
+    padding:7px 12px;
+}
+
+/* PERINGKAT */
+
+.hasil{
+    display:none;
+    text-align:center;
+    padding:35px 20px;
+    background:linear-gradient(135deg,#fffdf1,#fff8d9);
+    border:3px solid #f2b705;
+    border-radius:22px;
+    box-shadow:0 10px 30px rgba(242,183,5,.2);
+}
+
+.selamat{
+    font-size:38px;
+    font-weight:900;
+    color:#164e78;
+    animation:pop .6s ease;
+}
+
+.sub-selamat{
+    font-size:18px;
+    color:#666;
+    margin:10px 0 28px;
+}
+
+@keyframes pop{
+    0%{transform:scale(.5);opacity:0}
+    100%{transform:scale(1);opacity:1}
+}
+
+.podium{
+    display:flex;
+    justify-content:center;
+    align-items:end;
+    gap:18px;
+    flex-wrap:wrap;
+}
+
+.rank{
+    width:190px;
+    padding:25px 15px;
+    border-radius:18px;
+    color:white;
+    box-shadow:0 8px 18px rgba(0,0,0,.15);
+}
+
+.rank h3{
+    margin:10px 0;
+}
+
+.rank .medal{
+    font-size:40px;
+}
+
+.rank .name{
+    font-size:20px;
+    font-weight:bold;
+}
+
+.rank .score{
+    font-size:30px;
+    font-weight:bold;
+    margin-top:8px;
+}
+
+.rank1{
+    background:linear-gradient(135deg,#e4ad16,#c98f00);
+    transform:translateY(-20px);
+}
+
+.rank2{
+    background:linear-gradient(135deg,#aab4bf,#7d8995);
+}
+
+.rank3{
+    background:linear-gradient(135deg,#c88355,#a85e36);
+}
+
+/* FOOTER */
+
+footer{
+    text-align:center;
+    padding:30px;
+    color:#777;
+}
+
+@media(max-width:650px){
+
+    header h1{
+        font-size:27px;
+    }
+
+    .flow-step{
+        width:250px;
+    }
+
+    .podium{
+        align-items:center;
+    }
+
+    .rank1{
+        transform:none;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>🏆 Peringkat Kelas</h1>
+    <p>Algoritma Linear Search - Mencari 3 Angka Terbesar</p>
+    <p>Tugas Algoritma dan Pemrograman</p>
+</header>
+
+<div class="container">
+
+<!-- PENDAHULUAN -->
+
+<div class="card">
+    <h2>📌 Tentang Program</h2>
+
+    <p class="intro">
+        Website ini merupakan pengembangan dari flowchart algoritma
+        <b>Linear Search</b> untuk mencari 3 angka terbesar dari sebuah array.
+        Program kemudian dikembangkan menjadi website peringkat kelas.
+    </p>
+</div>
+
+
+<!-- ARRAY -->
+
+<div class="card">
+
+    <h2>🔢 Array Nilai</h2>
+
+    <div class="array-title">
+        Data nilai siswa
+    </div>
+
+    <div class="array-box" id="arrayBox"></div>
+
+    <div class="array-result" id="arrayResult">
+
+        <div class="array-title">
+            ✨ Hasil Pencarian 3 Angka Terbesar
+        </div>
+
+        <p class="mini-note">
+            Hasil dari proses Linear Search:
+        </p>
+
+        <div class="top3-box" id="top3Box"></div>
+
+    </div>
+
+</div>
+
+
+<!-- FLOWCHART -->
+
+<div class="card">
+
+    <h2>🔄 Flowchart Linear Search</h2>
+
+    <p class="intro">
+        Klik bagian flowchart untuk melihat proses pencarian.
+    </p>
+
+    <div class="flowchart">
+
+        <div class="flow-step start" onclick="klikFlow(this,1)">
+            MULAI
+        </div>
+
+        <div class="arrow">↓</div>
+
+        <div class="flow-step process" onclick="klikFlow(this,2)">
+            Masukkan Array
+        </div>
+
+        <div class="arrow">↓</div>
+
+        <div class="flow-step process" onclick="klikFlow(this,3)">
+            Tentukan Nilai Terbesar
+        </div>
+
+        <div class="arrow">↓</div>
+
+        <div class="flow-step decision" onclick="klikFlow(this,4)">
+            <span>Periksa Nilai Satu per Satu</span>
+        </div>
+
+        <div class="arrow">↓</div>
+
+        <div class="flow-step process" onclick="klikFlow(this,5)">
+            Simpan Nilai Terbesar
+        </div>
+
+        <div class="arrow">↓</div>
+
+        <div class="flow-step process" onclick="klikFlow(this,6)">
+            Ulangi Sampai Mendapat 3 Nilai
+        </div>
+
+        <div class="arrow">↓</div>
+
+        <div class="flow-step start" onclick="klikFlow(this,7)">
+            SELESAI
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- DATA SISWA -->
+
+<div class="card">
+
+    <h2>👩‍🎓 Data Peringkat Kelas</h2>
+
+    <div class="input-area">
+
+        <input
+            type="text"
+            id="nama"
+            placeholder="Masukkan nama siswa">
+
+        <input
+            type="number"
+            id="nilai"
+            placeholder="Masukkan nilai">
+
+        <button class="btn-add" onclick="tambahSiswa()">
+            + Tambah
+        </button>
+
+    </div>
+
+    <table>
+
+        <thead>
+
+            <tr>
+                <th>No</th>
+                <th>Nama</th>
+                <th>Nilai</th>
+                <th>Aksi</th>
+            </tr>
+
+        </thead>
+
+        <tbody id="tabelSiswa"></tbody>
+
+    </table>
+
+    <button class="btn-search" onclick="hitungPeringkat()">
+        🔎 Tampilkan 3 Nilai Terbesar
+    </button>
+
+</div>
+
+
+<!-- HASIL PERINGKAT -->
+
+<div class="hasil" id="hasil">
+
+    <div class="selamat">
+        🎉 SELAMAT! 🎉
+    </div>
+
+    <div class="sub-selamat">
+        3 besar peringkat kelas berhasil ditemukan!
+    </div>
+
+    <div class="podium" id="podium"></div>
+
+</div>
+
+</div>
+
+
+<footer>
+    Tugas Algoritma dan Pemrograman
+</footer>
+
+
+<script>
+
+/* =========================
+   DATA AWAL
+========================= */
+
+let siswa = [
+
+    {nama:"Andi",nilai:78},
+    {nama:"Budi",nilai:92},
+    {nama:"Citra",nilai:85},
+    {nama:"Dewi",nilai:67},
+    {nama:"Eka",nilai:95},
+    {nama:"Fajar",nilai:81},
+    {nama:"Gita",nilai:88},
+    {nama:"Hendra",nilai:73}
+
+];
+
+
+/* =========================
+   ARRAY
+========================= */
+
+function tampilkanArray(){
+
+    let box = document.getElementById("arrayBox");
+
+    box.innerHTML="";
+
+    siswa.forEach(function(data){
+
+        let item = document.createElement("div");
+
+        item.className="array-item";
+
+        item.textContent=data.nilai;
+
+        box.appendChild(item);
+
+    });
+
+}
+
+
+/* =========================
+   TABEL
+========================= */
+
+function tampilkanTabel(){
+
+    let tabel =
+        document.getElementById("tabelSiswa");
+
+    tabel.innerHTML="";
+
+    siswa.forEach(function(data,index){
+
+        let tr=document.createElement("tr");
+
+        tr.innerHTML=`
+
+            <td>${index+1}</td>
+
+            <td>${data.nama}</td>
+
+            <td>${data.nilai}</td>
+
+            <td>
+                <button
+                    class="delete"
+                    onclick="hapusSiswa(${index})">
+                    Hapus
+                </button>
+            </td>
+
+        `;
+
+        tabel.appendChild(tr);
+
+    });
+
+}
+
+
+/* =========================
+   TAMBAH DATA
+========================= */
+
+function tambahSiswa(){
+
+    let nama=
+        document.getElementById("nama").value.trim();
+
+    let nilai=
+        Number(document.getElementById("nilai").value);
+
+    if(nama==="" || isNaN(nilai)){
+
+        alert("Nama dan nilai harus diisi.");
+
+        return;
+    }
+
+    if(nilai<0 || nilai>100){
+
+        alert("Nilai harus antara 0 sampai 100.");
+
+        return;
+    }
+
+    siswa.push({
+        nama:nama,
+        nilai:nilai
+    });
+
+    document.getElementById("nama").value="";
+    document.getElementById("nilai").value="";
+
+    tampilkanTabel();
+    tampilkanArray();
+
+}
+
+
+/* =========================
+   HAPUS
+========================= */
+
+function hapusSiswa(index){
+
+    siswa.splice(index,1);
+
+    tampilkanTabel();
+    tampilkanArray();
+
+}
+
+
+/* =========================
+   LINEAR SEARCH
+========================= */
+
+function hitungPeringkat(){
+
+    if(siswa.length<3){
+
+        alert("Minimal harus ada 3 siswa.");
+
+        return;
+    }
+
+    let data=
+        [...siswa];
+
+    let hasil=[];
+
+
+    /*
+       Linear Search:
+       data diperiksa satu per satu
+       untuk mencari nilai terbesar.
+    */
+
+    for(let k=0;k<3;k++){
+
+        let terbesar=-Infinity;
+
+        let index=-1;
+
+
+        for(let i=0;i<data.length;i++){
+
+            if(data[i].nilai>terbesar){
+
+                terbesar=data[i].nilai;
+
+                index=i;
+
+            }
+
+        }
+
+
+        hasil.push(
+            data[index]
+        );
+
+
+        data.splice(
+            index,
+            1
+        );
+
+    }
+
+
+    tampilkanHasil(hasil);
+
+    tampilkanHasilArray(hasil);
+
+}
+
+
+/* =========================
+   HASIL ARRAY
+========================= */
+
+function tampilkanHasilArray(hasil){
+
+    let result=
+        document.getElementById("arrayResult");
+
+    let box=
+        document.getElementById("top3Box");
+
+    box.innerHTML="";
+
+    hasil.forEach(function(data,index){
+
+        let item=
+            document.createElement("div");
+
+        item.className="top-number";
+
+        item.innerHTML=
+            `${index+1}. ${data.nilai}`;
+
+        box.appendChild(item);
+
+    });
+
+    result.style.display="block";
+
+}
+
+
+/* =========================
+   HASIL PERINGKAT
+========================= */
+
+function tampilkanHasil(hasil){
+
+    let hasilBox=
+        document.getElementById("hasil");
+
+    let podium=
+        document.getElementById("podium");
+
+    podium.innerHTML="";
+
+
+    let kelas=[
+        "rank1",
+        "rank2",
+        "rank3"
+    ];
+
+    let medal=[
+        "🥇",
+        "🥈",
+        "🥉"
+    ];
+
+
+    hasil.forEach(function(data,index){
+
+        let kotak=
+            document.createElement("div");
+
+        kotak.className=
+            "rank "+kelas[index];
+
+        kotak.innerHTML=`
+
+            <div class="medal">
+                ${medal[index]}
+            </div>
+
+            <h3>
+                PERINGKAT ${index+1}
+            </h3>
+
+            <div class="name">
+                ${data.nama}
+            </div>
+
+            <div class="score">
+                ${data.nilai}
+            </div>
+
+        `;
+
+        podium.appendChild(kotak);
+
+    });
+
+
+    hasilBox.style.display="block";
+
+    hasilBox.scrollIntoView({
+        behavior:"smooth",
+        block:"center"
+    });
+
+}
+
+
+/* =========================
+   FLOWCHART
+========================= */
+
+function klikFlow(element,nomor){
+
+    let semua=
+        document.querySelectorAll(".flow-step");
+
+    semua.forEach(function(item){
+
+        item.classList.remove("active");
+
+    });
+
+
+    element.classList.add("active");
+
+
+    /*
+       Saat flowchart diklik,
+       array akan diberi efek
+       untuk menunjukkan proses
+       pemeriksaan nilai.
+    */
+
+    if(nomor===4){
+
+        let angka=
+            document.querySelectorAll(".array-item");
+
+        angka.forEach(function(item,index){
+
+            setTimeout(function(){
+
+                item.classList.add("active");
+
+                setTimeout(function(){
+
+                    item.classList.remove("active");
+
+                },350);
+
+            },index*150);
+
+        });
+
+    }
+
+
+    if(nomor===6){
+
+        let angka=
+            document.querySelectorAll(".array-item");
+
+        angka.forEach(function(item){
+
+            item.classList.add("active");
+
+        });
+
+        setTimeout(function(){
+
+            angka.forEach(function(item){
+
+                item.classList.remove("active");
+
+            });
+
+        },700);
+
+    }
+
+}
+
+
+/* =========================
+   JALANKAN SAAT DIBUKA
+========================= */
+
+tampilkanTabel();
+
+tampilkanArray();
+
+</script>
+
+</body>
+</html>
