@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Kasir Indomaret</title>
+<style>
+  body { margin:0; padding:20px; font-family:sans-serif; background:#fff8ec; color:#1f2a44; }
+  main { max-width:1000px; margin:auto; }
+  .banner { background:#14357f; border-bottom:6px solid #e30613; padding:20px; border-radius:14px; margin-bottom:20px; }
+  .banner h1 { margin:0; line-height:0; }
+  .banner svg { height:64px; display:block; }
+  .scan { margin-bottom:20px; }
+  .scan input { padding:10px; font-size:1rem; border:2px solid #ffc233; border-radius:8px; }
+  .scan button { padding:10px 20px; font-size:1rem; font-weight:700; border:0; border-radius:8px; background:#ffc233; cursor:pointer; }
+  #hasil { background:#fff; border-left:6px solid #ffc233; border-radius:10px; padding:14px; margin-bottom:20px; }
+  #hasil:has(.gagal) { border-left-color:#dc2626; background:#fef2f2; }
+  .gagal { color:#b91c1c; font-weight:600; }
+  .grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  section.metode { border-radius:12px; padding:14px; min-width:0; }
+  section.linear { background:#fff7f3; border-top:6px solid #e4572e; }
+  section.binary { background:#f2fbfa; border-top:6px solid #00897b; }
+  .linear h2 { color:#e4572e; } .binary h2 { color:#00897b; }
+  .scroll { overflow-x:auto; }
+  table { width:100%; border-collapse:collapse; font-size:.9rem; background:#fff; }
+  th, td { text-align:left; padding:6px 8px; border-bottom:1px solid #eadfc8; white-space:nowrap; }
+  .linear th { background:#ffd9cc; } .binary th { background:#c8ece8; }
+  tr.klik { cursor:pointer; }
+  tr.temu td { background:#bbf7d0; font-weight:700; }
+  tr.pilih:not(.temu) td { background:#ffe9a8; }
+  .detail { margin-top:10px; padding:10px; border-radius:4px; font-size:.9rem; }
+  .linear .detail { background:#ffece4; border-left:4px solid #e4572e; }
+  .binary .detail { background:#dff4f1; border-left:4px solid #00897b; }
+  .ringkas { display:inline-block; margin-top:10px; padding:4px 14px; border-radius:999px; color:#fff; font-weight:700; }
+  .linear .ringkas { background:#e4572e; } .binary .ringkas { background:#00897b; }
+  #banding { margin-top:20px; background:#fff; border-top:6px solid #ffc233; border-radius:12px; padding:14px; }
+  .bar { display:flex; align-items:center; gap:8px; margin:6px 0; }
+  .bar span { width:110px; }
+  .bar div { height:22px; border-radius:0 11px 11px 0; }
+</style>
+</head>
+<body>
+<main>
+  <header class="banner">
+    <h1>
+      <svg viewBox="0 0 330 108" role="img" aria-label="Indomaret">
+        <defs><clipPath id="potong"><rect width="330" height="108" rx="14"/></clipPath></defs>
+        <g clip-path="url(#potong)">
+          <rect width="330" height="108" fill="#e30613"/>
+          <rect y="36" width="330" height="36" fill="#1236c4"/>
+          <rect y="72" width="330" height="36" fill="#ffc20e"/>
+          <rect x="30" y="8" width="270" height="92" rx="40" fill="#fff" stroke="#e30613" stroke-width="6"/>
+        </g>
+        <text x="165" y="68" text-anchor="middle" font-family="Georgia, serif" font-style="italic" font-weight="700" font-size="42" fill="#1236c4">Indomaret</text>
+      </svg>
+    </h1>
+  </header>
+
+  <div class="scan">
+    <input id="inputBarcode" type="number" placeholder="Contoh: 1344">
+    <button onclick="cari()">Cari produk</button>
+  </div>
+
+  <div id="hasil">Masukkan barcode dari 1008 sampai 1999.</div>
+
+  <div class="grid">
+    <section class="metode linear">
+      <h2>Linear Search</h2>
+      <div class="scroll" id="langkahLinear"></div>
+      <div class="ringkas" id="ringkasLinear"></div>
+    </section>
+    <section class="metode binary">
+      <h2>Binary Search</h2>
+      <div class="scroll" id="langkahBinary"></div>
+      <div class="ringkas" id="ringkasBinary"></div>
+    </section>
+  </div>
+
+  <div id="banding" hidden>
+    <h2>Perbandingan jumlah langkah</h2>
+    <div id="grafik"></div>
+    <p id="kesimpulan"></p>
+  </div>
+</main>
+
+<script>
+let daftarProduk = [
+    { barcode: 1008, produk: 'Sabun Lifebuoy Total 10' },
+    { barcode: 1015, produk: 'Shampo Pantene Anti Dandruff' },
+    { barcode: 1023, produk: 'Sikat Gigi Pepsodent' },
+    { barcode: 1045, produk: 'Pasta Gigi Colgate MaxFresh' },
+    { barcode: 1061, produk: 'Kecap Manis Bango 275ml' },
+    { barcode: 1078, produk: 'Saus Sambal ABC' },
+    { barcode: 1092, produk: 'Minyak Goreng Sania 2L' },
+    { barcode: 1113, produk: 'Teh Celup Sariwangi' },
+    { barcode: 1124, produk: 'Kopi Kapal Api Special' },
+    { barcode: 1139, produk: 'Gula Pasir Gulaku 1kg' },
+    { barcode: 1156, produk: 'Tepung Terigu Segitiga Biru' },
+    { barcode: 1177, produk: 'Mie Instan Indomie Goreng' },
+    { barcode: 1198, produk: 'Biskuit Roma Kelapa' },
+    { barcode: 1219, produk: 'Snack Twisko Jagung Bakar' },
+    { barcode: 1234, produk: 'Wafer Tango Cokelat' },
+    { barcode: 1251, produk: 'Susu UHT Ultra Milk Cokelat' },
+    { barcode: 1266, produk: 'Yogurt Cimory Strawberry' },
+    { barcode: 1282, produk: 'Jus Buavita Jambu' },
+    { barcode: 1305, produk: 'Air Mineral Aqua 600ml' },
+    { barcode: 1321, produk: 'Deterjen Rinso Anti Noda' },
+    { barcode: 1344, produk: 'Pewangi Molto Pure' },
+    { barcode: 1367, produk: 'Pembersih Lantai Super Pell' },
+    { barcode: 1388, produk: 'Sabun Cuci Piring Sunlight' },
+    { barcode: 1409, produk: 'Obat Nyamuk Baygon' },
+    { barcode: 1423, produk: 'Baterai ABC Alkaline AA' },
+    { barcode: 1447, produk: 'Deodoran Rexona Men' },
+    { barcode: 1468, produk: 'Parfum Axe Cokelat' },
+    { barcode: 1489, produk: 'Sabun Muka Garnier Men' },
+    { barcode: 1512, produk: 'Hand Sanitizer Antis' },
+    { barcode: 1533, produk: 'Tisu Wajah Paseo' },
+    { barcode: 1555, produk: 'Popok Bayi MamyPoko' },
+    { barcode: 1578, produk: 'Beras Sania 5kg' },
+    { barcode: 1599, produk: 'Telur Ayam Negeri (per kg)' },
+    { barcode: 1621, produk: 'Roti Tawar Sari Roti' },
+    { barcode: 1645, produk: 'Selai Cokelat Nutella' },
+    { barcode: 1666, produk: 'Keju Kraft Cheddar' },
+    { barcode: 1687, produk: 'Sarden ABC Tomat' },
+    { barcode: 1708, produk: 'Kornet Sapi Pronas' },
+    { barcode: 1729, produk: 'Bubur Bayi Sun Pisang' },
+    { barcode: 1751, produk: 'Pembalut Charm Body Fit' },
+    { barcode: 1774, produk: 'Cokelat SilverQueen' },
+    { barcode: 1798, produk: 'Permen Kiss Mint' },
+    { barcode: 1823, produk: 'Keripik Kentang Chitato' },
+    { barcode: 1845, produk: 'Minuman Soda Coca-Cola' },
+    { barcode: 1867, produk: 'Sirup Marjan Cocopandan' },
+    { barcode: 1888, produk: 'Es Krim Walls Magnum' },
+    { barcode: 1910, produk: 'Sereal Koko Krunch' },
+    { barcode: 1932, produk: 'Mentega Blue Band' },
+    { barcode: 1956, produk: 'Sambal Terasi Uleg' },
+    { barcode: 1999, produk: 'Kopi Sachet Nescafe Classic' }
+];
+
+function linearSearch(data, target) {
+    const langkah = [];
+    for (let i = 0; i < data.length; i++) {
+        const cocok = data[i].barcode === target;
+        langkah.push({ no: langkah.length + 1, indeks: i, barcode: data[i].barcode, keputusan: cocok ? 'Ditemukan' : 'Tidak sama' });
+        if (cocok) return { indeks: i, langkah };
+    }
+    return { indeks: -1, langkah };
+}
+
+function binarySearch(data, target) {
+    const langkah = [];
+    let low = 0;
+    let high = data.length - 1;
+    while (low <= high) {
+        const middle = Math.floor((low + high) / 2);
+        const nilai = data[middle].barcode;
+        let keputusan = 'Ditemukan';
+        if (target < nilai) keputusan = 'Lebih kecil, buang kanan';
+        if (target > nilai) keputusan = 'Lebih besar, buang kiri';
+        langkah.push({ no: langkah.length + 1, low, high, middle, barcode: nilai, keputusan });
+        if (nilai === target) return { indeks: middle, langkah };
+        if (target < nilai) high = middle - 1;
+        else low = middle + 1;
+    }
+    return { indeks: -1, langkah };
+}
+
+let dataLangkah = { linear: [], binary: [] };
+let targetSaatIni = 0;
+
+function buatTabel(kolom, baris, jenis) {
+    let html = '<table><thead><tr>' + kolom.map(k => '<th>' + k.judul + '</th>').join('') + '</tr></thead><tbody>';
+    baris.forEach((b, i) => {
+        const temu = b.keputusan === 'Ditemukan';
+        html += '<tr class="klik' + (temu ? ' temu' : '') + '" data-jenis="' + jenis + '" data-i="' + i + '">' +
+            kolom.map(k => '<td>' + b[k.kunci] + '</td>').join('') + '</tr>';
+    });
+    return html + '</tbody></table><div class="detail" id="detail-' + jenis + '">Klik salah satu baris untuk melihat penjelasan langkahnya.</div>';
+}
+
+function penjelasan(jenis, s) {
+    const T = targetSaatIni;
+    if (jenis === 'linear') {
+        const p = daftarProduk[s.indeks];
+        return 'Indeks ' + s.indeks + ' berisi ' + p.barcode + '. ' +
+            (p.barcode === T ? 'Sama dengan ' + T + ': ditemukan.' : 'Bukan ' + T + ', lanjut ke indeks ' + (s.indeks + 1) + '.');
+    }
+    const p = daftarProduk[s.middle];
+    let teks = 'Middle = ' + s.middle + ', berisi ' + p.barcode + '. ';
+    if (p.barcode === T) teks += 'Sama dengan ' + T + ': ditemukan.';
+    else if (T < p.barcode) teks += T + ' lebih kecil, buang kanan. Sisa: indeks ' + s.low + ' sampai ' + (s.middle - 1) + '.';
+    else teks += T + ' lebih besar, buang kiri. Sisa: indeks ' + (s.middle + 1) + ' sampai ' + s.high + '.';
+    return teks;
+}
+
+function pilihBaris(tr) {
+    const jenis = tr.dataset.jenis;
+    tr.parentElement.querySelectorAll('tr.pilih').forEach(r => r.classList.remove('pilih'));
+    tr.classList.add('pilih');
+    document.getElementById('detail-' + jenis).textContent = penjelasan(jenis, dataLangkah[jenis][Number(tr.dataset.i)]);
+}
+
+function cari() {
+    const teks = document.getElementById('inputBarcode').value.trim();
+    const hasil = document.getElementById('hasil');
+    if (teks === '' || isNaN(Number(teks))) {
+        hasil.innerHTML = '<span class="gagal">Barcode harus berupa angka.</span>';
+        return;
+    }
+    const target = Number(teks);
+    const lin = linearSearch(daftarProduk, target);
+    const bin = binarySearch(daftarProduk, target);
+
+    document.getElementById('langkahLinear').innerHTML = buatTabel(
+        [{ judul: 'Langkah', kunci: 'no' }, { judul: 'Indeks', kunci: 'indeks' }, { judul: 'Barcode dibandingkan', kunci: 'barcode' }, { judul: 'Keputusan', kunci: 'keputusan' }],
+        lin.langkah, 'linear');
+    document.getElementById('langkahBinary').innerHTML = buatTabel(
+        [{ judul: 'Langkah', kunci: 'no' }, { judul: 'Low', kunci: 'low' }, { judul: 'High', kunci: 'high' }, { judul: 'Middle', kunci: 'middle' }, { judul: 'Barcode dibandingkan', kunci: 'barcode' }, { judul: 'Keputusan', kunci: 'keputusan' }],
+        bin.langkah, 'binary');
+
+    dataLangkah = { linear: lin.langkah, binary: bin.langkah };
+    targetSaatIni = target;
+    document.querySelectorAll('tr.klik').forEach(tr => tr.addEventListener('click', () => pilihBaris(tr)));
+
+    document.getElementById('ringkasLinear').textContent = 'Total perbandingan: ' + lin.langkah.length;
+    document.getElementById('ringkasBinary').textContent = 'Total perbandingan: ' + bin.langkah.length;
+
+    if (lin.indeks !== -1) {
+        const p = daftarProduk[lin.indeks];
+        hasil.innerHTML = '<b>Produk ditemukan:</b> ' + p.produk + ' (barcode ' + p.barcode + ', indeks ' + lin.indeks + ')';
+    } else {
+        hasil.innerHTML = '<span class="gagal">Barcode ' + target + ' tidak ditemukan di sistem.</span>';
+    }
+
+    const maks = Math.max(lin.langkah.length, bin.langkah.length);
+    const lebar = n => Math.max(2, Math.round(n / maks * 100)) + '%';
+    document.getElementById('grafik').innerHTML =
+        '<div class="bar"><span>Linear Search</span><div style="width:' + lebar(lin.langkah.length) + ';background:#e4572e"></div><b>' + lin.langkah.length + '</b></div>' +
+        '<div class="bar"><span>Binary Search</span><div style="width:' + lebar(bin.langkah.length) + ';background:#00897b"></div><b>' + bin.langkah.length + '</b></div>';
+    document.getElementById('kesimpulan').textContent =
+        'Pada ' + daftarProduk.length + ' data, Linear Search memerlukan ' + lin.langkah.length +
+        ' perbandingan, sedangkan Binary Search memerlukan ' + bin.langkah.length + ' perbandingan.';
+    document.getElementById('banding').hidden = false;
+}
+</script>
+</body>
+</html>
