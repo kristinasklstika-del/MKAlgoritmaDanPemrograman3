@@ -98,12 +98,7 @@
     background:linear-gradient(135deg,var(--h1),var(--h2) 60%,var(--h3));
   }
   .quote::before{content:"“"; position:absolute; top:-30px; left:22px; font:700 10rem/1 "Fraunces",serif; color:var(--a1); opacity:.25;}
-  .quote .label{font:500 .72rem "IBM Plex Mono",monospace; letter-spacing:2px; color:var(--a2); margin-bottom:14px;}
-  .quote blockquote{margin:0 auto; max-width:30ch; font:italic 400 clamp(1.4rem,3.6vw,2.1rem)/1.35 "Fraunces",serif; min-height:5.4em; display:flex; align-items:center; justify-content:center; transition:opacity .5s;}
-  .quote blockquote.out{opacity:0;}
-  .dots{display:flex; justify-content:center; gap:8px; margin-top:20px;}
-  .dots button{width:9px; height:9px; border-radius:50%; border:none; padding:0; cursor:pointer; background:var(--a1); opacity:.3; transition:all .3s;}
-  .dots button.on{opacity:1; width:26px; border-radius:6px;}
+  .quote blockquote{margin:0 auto; max-width:30ch; font:italic 400 clamp(1.4rem,3.6vw,2.1rem)/1.35 "Fraunces",serif;}
   footer{padding:10px 0 48px; text-align:center; font-size:.85rem; color:var(--soft);}
   @media(max-width:760px){ .hero-in{grid-template-columns:1fr; gap:34px;} .feature{grid-template-columns:1fr; gap:6px;} .feature .big{font-size:3rem;} .quote{padding:44px 22px 34px;} }
   @media(prefers-reduced-motion:reduce){ *{animation:none!important; transition:none!important;} }
@@ -148,9 +143,7 @@
   <div class="grid" id="grid"></div>
 
   <section class="quote">
-    <div class="label">KATA MOTIVASI</div>
-    <blockquote id="q"></blockquote>
-    <div class="dots" id="dots"></div>
+    <blockquote>Setiap baris kode yang kamu tulis hari ini adalah satu langkah menuju versi terbaik dirimu.</blockquote>
   </section>
 </main>
 
@@ -162,20 +155,10 @@
     {judul:"Tugas Minggu 01", desc:"Isi deskripsi di sini"},
     {judul:"Tugas Minggu 02", desc:"Isi deskripsi di sini"},
     {judul:"Tugas Minggu 03", desc:"Isi deskripsi di sini"},
-    {judul:"Peringkat Kelas", desc:"Linear search top-3 & peringkat kelas"},
-    {judul:"Tugas Minggu 05", desc:"Isi deskripsi di sini"},
+    {judul:"Peringkat Kelas", desc:"Website peringkat kelas dengan algoritma linear search untuk mencari 3 nilai tertinggi"},
+    {judul:"Tugas Linear Search", desc:"Pencarian data pada array menggunakan algoritma linear search"},
     {judul:"Tugas Minggu 06", desc:"Isi deskripsi di sini"}
   ];
-  // ====== EDIT DI SINI: kata motivasi ======
-  const kata = [
-    "Setiap baris kode yang kamu tulis hari ini adalah satu langkah menuju versi terbaik dirimu.",
-    "Bug bukan musuh, ia hanya guru yang menyamar.",
-    "Algoritma terbaik dimulai dari langkah kecil yang dilakukan dengan konsisten.",
-    "Jangan takut salah. Takutlah jika kamu berhenti mencoba.",
-    "Kemajuan kecil setiap hari lebih berharga daripada kesempurnaan yang tak pernah dimulai.",
-    "Kamu tidak harus hebat untuk memulai, tapi kamu harus memulai untuk menjadi hebat."
-  ];
-
   // bunga hiasan untuk tiap tugas
   function bunga(p){
     const petal=[0,72,144,216,288].map(a=>'<ellipse cx="30" cy="17" rx="8" ry="13" fill="'+p+'" transform="rotate('+a+' 30 30)"/>').join('');
@@ -195,25 +178,6 @@
   });
 
   document.querySelector('.feature').insertAdjacentHTML('beforeend', hiasan(1));
-
-  // kata motivasi berganti otomatis
-  const q = document.getElementById('q'), dots = document.getElementById('dots');
-  let qi = 0, timer;
-  kata.forEach((_,i)=>{
-    const d = document.createElement('button'); d.setAttribute('aria-label','Kutipan '+(i+1));
-    d.addEventListener('click',()=>{ show(i); restart(); });
-    dots.appendChild(d);
-  });
-  function show(i){
-    q.classList.add('out');
-    setTimeout(()=>{
-      qi = i; q.textContent = kata[i];
-      [...dots.children].forEach((d,j)=>d.classList.toggle('on', j===i));
-      q.classList.remove('out');
-    }, 350);
-  }
-  function restart(){ clearInterval(timer); timer = setInterval(()=>show((qi+1)%kata.length), 6500); }
-  q.textContent = kata[0]; dots.children[0].classList.add('on'); restart();
 
   // efek miring kartu identitas
   const id = document.getElementById('id'), wrap = id.parentElement;
