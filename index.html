@@ -1,74 +1,228 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" data-theme="awan">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tugas Algoritma dan Pemrograman</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tugas Algoritma dan Pemrograman</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,600;0,700;1,400&family=IBM+Plex+Mono:wght@500&family=Josefin+Sans:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ===== TEMA WARNA (ubah/tambah di sini) ===== */
+  :root,[data-theme="awan"]{
+    --bg:radial-gradient(circle at 18% 8%,#5d7799 0,transparent 55%),radial-gradient(circle at 88% 65%,#6b87ab 0,transparent 50%),radial-gradient(circle at 40% 100%,#51698a 0,transparent 55%),#2e3d56;
+    --paper:#2e3d56; --card:rgba(130,160,200,.55); --line:rgba(255,255,255,.35); --text:#f3f7fd; --soft:#d3e0f1;
+    --a1:#a9c2e4; --a2:#d9e6f7; --a3:#8eaad0; --f1:#8fb0dc; --f2:#5a7aa6;
+    --h1:#58739a; --h2:#47628a; --h3:#3a5276; --glass:rgba(255,255,255,.18); --bf:"Josefin Sans";
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--bg,var(--paper)); background-attachment:fixed; color:var(--text); font-family:var(--bf,"Plus Jakarta Sans"),sans-serif; font-size:1.02rem; line-height:1.6; transition:background .4s,color .4s;}
+  h1,h2,h3{font-family:"Fraunces",serif; margin:0; font-weight:600;}
+  .wrap{max-width:1000px; margin:0 auto; padding:0 24px;}
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 40px;
-            line-height: 1.8;
-        }
+  /* HERO */
+  .hero{
+    position:relative; padding:76px 0 90px; overflow:hidden; border-radius:0 0 48px 48px;
+    background:linear-gradient(135deg,var(--h1) 0%,var(--h2) 55%,var(--h3) 100%);
+  }
+  .blob{position:absolute; border-radius:50%; filter:blur(55px); animation:float 15s ease-in-out infinite;}
+  .b1{width:320px; height:320px; background:var(--a1); top:-110px; right:-40px; opacity:.4;}
+  .b2{width:260px; height:260px; background:var(--a3); bottom:-130px; left:28%; opacity:.45; animation-delay:-5s;}
+  .b3{width:230px; height:230px; background:var(--a2); top:35%; left:-100px; opacity:.3; animation-delay:-9s;}
+  @keyframes float{50%{transform:translate(28px,-24px) scale(1.1);}}
+  .hero-in{position:relative; display:grid; grid-template-columns:1.2fr 1fr; gap:48px; align-items:center;}
+  .hero h1{font-size:clamp(2.7rem,7.5vw,4.8rem); line-height:1.02; letter-spacing:-1px;}
+  .hero h1 span{font-style:italic; font-weight:400; background:linear-gradient(90deg,var(--a1),var(--a2)); -webkit-background-clip:text; background-clip:text; color:transparent;}
+  .sub{max-width:42ch; color:var(--soft); margin:18px 0 0; font-size:1.05rem;}
+  .rule{width:84px; height:5px; background:linear-gradient(90deg,var(--a1),var(--a2),var(--a3)); border-radius:5px; margin-top:26px;}
 
-        h1 {
-            font-size: 36px;
-        }
+  /* kartu identitas */
+  .id-wrap{perspective:900px;}
+  .id{
+    background:var(--glass); border:1px solid rgba(255,255,255,.6); backdrop-filter:blur(14px);
+    border-radius:26px; padding:28px 30px; transition:transform .15s ease-out; transform-style:preserve-3d;
+    box-shadow:0 30px 60px -30px rgba(0,0,0,.35);
+  }
+  .id .top{display:flex; justify-content:space-between; align-items:center; font:500 .72rem "IBM Plex Mono",monospace; color:var(--a2); letter-spacing:1.5px; margin-bottom:20px;}
+  .id .dot{width:36px; height:26px; border-radius:8px; background:linear-gradient(135deg,var(--a3),var(--a1));}
+  .id dl{margin:0;}
+  .id dt{font-size:.74rem; color:var(--soft); margin-top:16px;}
+  .id dd{margin:2px 0 0; font:600 1.25rem "Fraunces",serif;}
+  .id dd.mono{font-family:"IBM Plex Mono",monospace; font-weight:500; letter-spacing:2px; font-size:1.15rem;}
 
-        h2 {
-            font-size: 30px;
-            margin-top: 30px;
-        }
+  /* featured */
+  h2.sec{font-size:1.7rem; margin:52px 0 20px;}
+  .feature{
+    display:grid; grid-template-columns:auto 1fr; gap:26px; align-items:center; text-decoration:none; color:#fff;
+    background:linear-gradient(120deg,var(--f1,var(--a1)),var(--f2,var(--a2))); border-radius:24px; padding:30px 34px;
+    transition:transform .3s, box-shadow .3s; box-shadow:0 18px 40px -24px rgba(0,0,0,.5);
+  }
+  .feature:hover{transform:translateY(-5px) scale(1.01); box-shadow:0 26px 50px -24px rgba(0,0,0,.55);}
+  .feature .big{font:700 4.4rem/1 "Fraunces",serif; opacity:.9;}
+  .feature h3{font-size:1.55rem; margin-bottom:6px;}
+  .feature p{margin:0 0 14px; opacity:.92;}
+  .tags{display:flex; flex-wrap:wrap; gap:8px;}
+  .tag{font:500 .74rem "IBM Plex Mono",monospace; padding:4px 12px; border-radius:99px; background:rgba(255,255,255,.22);}
+  .badge{display:inline-block; font:600 .72rem "Plus Jakarta Sans"; background:#fff; color:var(--f2,var(--a2)); padding:3px 12px; border-radius:99px; margin-bottom:8px;}
 
-        .info {
-            font-size: 22px;
-        }
+  /* bunga hiasan */
+  .w,.feature{position:relative;}
+  .fl{position:absolute; pointer-events:none; transition:transform .6s ease;}
+  .fl svg{width:100%; height:100%; display:block; filter:drop-shadow(0 2px 3px rgba(20,35,60,.25));}
+  .f1{width:58px; height:58px; top:12px; right:14px; transform:rotate(-12deg);}
+  .f2{width:28px; height:28px; top:60px; right:72px; transform:rotate(20deg);}
+  .w:hover .f1,.feature:hover .f1{transform:rotate(30deg) scale(1.12);}
+  .w:hover .f2,.feature:hover .f2{transform:rotate(-40deg) scale(1.25);}
+  .feature .f1{width:68px; height:68px; top:16px; right:22px;}
+  .feature .f2{top:78px; right:92px;}
 
-        ul {
-            font-size: 21px;
-        }
+  /* grid */
+  .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:20px;}
+  .w{
+    position:relative; display:block; text-decoration:none; color:var(--text); background:var(--card);
+    border:1px solid var(--line); border-radius:22px; padding:24px 24px 22px; overflow:hidden; backdrop-filter:blur(10px);
+    transition:transform .3s, box-shadow .3s, border-color .3s; opacity:0; transform:translateY(14px);
+  }
+  .w.show{opacity:1; transform:none;}
+  .w:hover{transform:translateY(-6px); border-color:var(--a1); box-shadow:0 20px 36px -24px rgba(0,0,0,.45);}
+  .w .no{font:700 3.4rem/1 "Fraunces",serif; color:var(--line);}
+  .w:hover .no{background:linear-gradient(90deg,var(--a1),var(--a2)); -webkit-background-clip:text; background-clip:text; color:transparent;}
+  .w h3{font-size:1.12rem; margin:10px 0 4px;}
+  .w p{margin:0; font-size:.9rem; color:var(--soft); padding-right:30px;}
+  .w .go{position:absolute; right:22px; bottom:18px; font-size:1.3rem; color:var(--a2); transition:transform .3s;}
+  .w:hover .go{transform:translateX(6px);}
 
-        a {
-            color: #0645ad;
-        }
-    </style>
+  /* kata motivasi */
+  .quote{
+    position:relative; margin:64px 0 40px; padding:46px 40px 40px; border-radius:28px; text-align:center; overflow:hidden;
+    background:linear-gradient(135deg,var(--h1),var(--h2) 60%,var(--h3));
+  }
+  .quote::before{content:"“"; position:absolute; top:-30px; left:22px; font:700 10rem/1 "Fraunces",serif; color:var(--a1); opacity:.25;}
+  .quote .label{font:500 .72rem "IBM Plex Mono",monospace; letter-spacing:2px; color:var(--a2); margin-bottom:14px;}
+  .quote blockquote{margin:0 auto; max-width:30ch; font:italic 400 clamp(1.4rem,3.6vw,2.1rem)/1.35 "Fraunces",serif; min-height:5.4em; display:flex; align-items:center; justify-content:center; transition:opacity .5s;}
+  .quote blockquote.out{opacity:0;}
+  .dots{display:flex; justify-content:center; gap:8px; margin-top:20px;}
+  .dots button{width:9px; height:9px; border-radius:50%; border:none; padding:0; cursor:pointer; background:var(--a1); opacity:.3; transition:all .3s;}
+  .dots button.on{opacity:1; width:26px; border-radius:6px;}
+  footer{padding:10px 0 48px; text-align:center; font-size:.85rem; color:var(--soft);}
+  @media(max-width:760px){ .hero-in{grid-template-columns:1fr; gap:34px;} .feature{grid-template-columns:1fr; gap:6px;} .feature .big{font-size:3rem;} .quote{padding:44px 22px 34px;} }
+  @media(prefers-reduced-motion:reduce){ *{animation:none!important; transition:none!important;} }
+</style>
 </head>
-
 <body>
 
-    <h1>Tugas Algoritma dan Pemrograman</h1>
+<header class="hero">
+  <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+  <div class="wrap hero-in">
+    <div>
+      <h1>Selamat <span>Datang</span></h1>
+      <p class="sub">Kumpulan tugas mingguan mata kuliah Algoritma dan Pemrograman.</p>
+      <div class="rule"></div>
+    </div>
+    <div class="id-wrap">
+      <div class="id" id="id">
+        <div class="top"><span>KARTU MAHASISWA</span><span class="dot"></span></div>
+        <dl>
+          <dt>Nama</dt><dd>Kristiana</dd>
+          <dt>NIM</dt><dd class="mono">31250006</dd>
+          <dt>Mata Kuliah</dt><dd>Algoritma dan Pemrograman</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</header>
 
-    <p class="info">Nama: <b>Kristiana</b></p>
-    <p class="info">NIM: <b>31250006</b></p>
+<main class="wrap">
+  <h2 class="sec">Tugas unggulan</h2>
+  <a class="feature" href="./minggu-04/">
+    <div class="big">04</div>
+    <div>
+      <span class="badge">TERBARU</span>
+      <h3>Peringkat Kelas</h3>
+      <p>Flowchart linear search untuk mencari 3 angka terbesar, dikembangkan menjadi website peringkat kelas interaktif dengan podium juara.</p>
+      <div class="tags"><span class="tag">Linear Search</span><span class="tag">Flowchart</span><span class="tag">JavaScript</span></div>
+    </div>
+  </a>
 
-    <h2>Daftar Tugas</h2>
+  <h2 class="sec">Daftar tugas</h2>
+  <div class="grid" id="grid"></div>
 
-    <ul>
-        <li>
-            <a href="minggu-01/">Minggu 01</a>
-        </li>
+  <section class="quote">
+    <div class="label">KATA MOTIVASI</div>
+    <blockquote id="q"></blockquote>
+    <div class="dots" id="dots"></div>
+  </section>
+</main>
 
-        <li>
-            <a href="minggu-02/">Minggu 02</a>
-        </li>
+<footer>Tugas Algoritma dan Pemrograman</footer>
 
-        <li>
-            <a href="minggu-03/">Minggu 03</a>
-        </li>
+<script>
+  // ====== EDIT DI SINI: judul & deskripsi tiap minggu ======
+  const minggu = [
+    {judul:"Tugas Minggu 01", desc:"Isi deskripsi di sini"},
+    {judul:"Tugas Minggu 02", desc:"Isi deskripsi di sini"},
+    {judul:"Tugas Minggu 03", desc:"Isi deskripsi di sini"},
+    {judul:"Peringkat Kelas", desc:"Linear search top-3 & peringkat kelas"},
+    {judul:"Tugas Minggu 05", desc:"Isi deskripsi di sini"},
+    {judul:"Tugas Minggu 06", desc:"Isi deskripsi di sini"}
+  ];
+  // ====== EDIT DI SINI: kata motivasi ======
+  const kata = [
+    "Setiap baris kode yang kamu tulis hari ini adalah satu langkah menuju versi terbaik dirimu.",
+    "Bug bukan musuh, ia hanya guru yang menyamar.",
+    "Algoritma terbaik dimulai dari langkah kecil yang dilakukan dengan konsisten.",
+    "Jangan takut salah. Takutlah jika kamu berhenti mencoba.",
+    "Kemajuan kecil setiap hari lebih berharga daripada kesempurnaan yang tak pernah dimulai.",
+    "Kamu tidak harus hebat untuk memulai, tapi kamu harus memulai untuk menjadi hebat."
+  ];
 
-        <li>
-            <a href="minggu-04/">Minggu 04</a>
-        </li>
+  // bunga hiasan untuk tiap tugas
+  function bunga(p){
+    const petal=[0,72,144,216,288].map(a=>'<ellipse cx="30" cy="17" rx="8" ry="13" fill="'+p+'" transform="rotate('+a+' 30 30)"/>').join('');
+    return '<svg viewBox="0 0 60 60" aria-hidden="true">'+petal+'<circle cx="30" cy="30" r="6.5" fill="#f6c96b"/><circle cx="30" cy="30" r="2.5" fill="#e8a93e"/></svg>';
+  }
+  const warnaBunga=['#ffd6e7','#ffffff','#ffe2b8','#e6d9ff','#d6f0ff','#ffd0d9'];
+  const hiasan=i=>'<span class="fl f1">'+bunga(warnaBunga[i%6])+'</span><span class="fl f2">'+bunga(warnaBunga[(i+3)%6])+'</span>';
 
-        <li>
-            <a href="minggu-05/">Minggu 05</a>
-        </li>
+  const grid = document.getElementById('grid');
+  minggu.forEach((m,i)=>{
+    const no = String(i+1).padStart(2,'0');
+    const a = document.createElement('a');
+    a.className = 'w'; a.href = './minggu-'+no+'/';
+    a.innerHTML = '<div class="no">'+no+'</div><h3>'+m.judul+'</h3><p>'+m.desc+'</p><span class="go">→</span>'+hiasan(i);
+    grid.appendChild(a);
+    setTimeout(()=>a.classList.add('show'), 80*i);
+  });
 
-        <li>
-            <a href="minggu-06/">Minggu 06</a>
-        </li>
-    </ul>
+  document.querySelector('.feature').insertAdjacentHTML('beforeend', hiasan(1));
 
+  // kata motivasi berganti otomatis
+  const q = document.getElementById('q'), dots = document.getElementById('dots');
+  let qi = 0, timer;
+  kata.forEach((_,i)=>{
+    const d = document.createElement('button'); d.setAttribute('aria-label','Kutipan '+(i+1));
+    d.addEventListener('click',()=>{ show(i); restart(); });
+    dots.appendChild(d);
+  });
+  function show(i){
+    q.classList.add('out');
+    setTimeout(()=>{
+      qi = i; q.textContent = kata[i];
+      [...dots.children].forEach((d,j)=>d.classList.toggle('on', j===i));
+      q.classList.remove('out');
+    }, 350);
+  }
+  function restart(){ clearInterval(timer); timer = setInterval(()=>show((qi+1)%kata.length), 6500); }
+  q.textContent = kata[0]; dots.children[0].classList.add('on'); restart();
+
+  // efek miring kartu identitas
+  const id = document.getElementById('id'), wrap = id.parentElement;
+  wrap.addEventListener('mousemove', e=>{
+    const r = wrap.getBoundingClientRect();
+    const x = (e.clientX - r.left)/r.width - .5, y = (e.clientY - r.top)/r.height - .5;
+    id.style.transform = 'rotateY('+(x*14)+'deg) rotateX('+(-y*14)+'deg)';
+  });
+  wrap.addEventListener('mouseleave', ()=>{ id.style.transform = ''; });
+</script>
 </body>
 </html>
