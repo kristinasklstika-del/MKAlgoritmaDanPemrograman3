@@ -98,13 +98,13 @@
   // Jumlah data = 10 + nomor absen
   const JUMLAH_DATA = 10 + NOMOR_ABSEN;
 
-    const dataAwal = [
+  const dataAwal = [
     {nama:"Asti",nilai:99.8},{nama:"Kalista",nilai:87.1},{nama:"Caca",nilai:78.5},{nama:"Yane",nilai:92.3},
     {nama:"Adit",nilai:65.0},{nama:"Farel",nilai:81.7},{nama:"Claudia",nilai:73.4},{nama:"Nova",nilai:88.9},
     {nama:"Hendra",nilai:59.2},{nama:"Indah",nilai:94.6},{nama:"Joko",nilai:70.8},{nama:"Kartika",nilai:85.5},
     {nama:"Lukman",nilai:62.3},{nama:"Maya",nilai:90.1},{nama:"Naufal",nilai:76.9},{nama:"Olivia",nilai:83.2}
   ];
-    
+
   // Array utama berisi nama mahasiswa dan nilai ujian
   let nilaiUAS = dataAwal.slice(0, JUMLAH_DATA);
   let arr = nilaiUAS.map(d => ({...d}));
@@ -132,7 +132,7 @@
     const n = arr.length;
     arr.forEach((d, i) => els[d.nama].style.left = `calc(${i*100/n}% + 3px)`);
   }
-  const tandai = (i, k, c) => els[arr[i].nama].classList.add(c) || (k != null && els[arr[k].nama].classList.add(c));
+  const tandai = (i, k, c) => { els[arr[i].nama].classList.add(c); els[arr[k].nama].classList.add(c); };
   const hapus = (...idx) => idx.forEach(i => els[arr[i].nama].classList.remove("cmp","swp"));
 
   function predikat(n) {
