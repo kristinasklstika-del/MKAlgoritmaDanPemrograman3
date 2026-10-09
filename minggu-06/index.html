@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bubble Sort Nilai UAS</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 600px; margin: 30px auto; padding: 0 15px; }
+    button { padding: 8px 14px; margin-right: 6px; cursor: pointer; }
+    table { border-collapse: collapse; width: 100%; margin-top: 15px; }
+    th, td { border: 1px solid #999; padding: 6px 10px; text-align: left; }
+    th { background: #eee; }
+  </style>
+</head>
+<body>
+  <h2>Bubble Sort Nilai UAS Mahasiswa</h2>
+
+  <button onclick="urutkan('asc')">Ascending</button>
+  <button onclick="urutkan('desc')">Descending</button>
+  <button onclick="tampilkan('Data Awal', nilaiUAS)">Reset</button>
+
+  <h3 id="judul"></h3>
+  <div id="hasil"></div>
+
+  <script>
+    // Nomor absen
+    const NOMOR_ABSEN = 6;
+
+    // Jumlah data = 10 + nomor absen
+    const JUMLAH_DATA = 10 + NOMOR_ABSEN;
+
+    const dataAwal = [
+      { nama: "Syaiful", nilai: 99.8 },
+      { nama: "Anwar", nilai: 87.1 },
+      { nama: "Budi", nilai: 78.5 },
+      { nama: "Citra", nilai: 92.3 },
+      { nama: "Dewi", nilai: 65.0 },
+      { nama: "Eko", nilai: 81.7 },
+      { nama: "Fajar", nilai: 73.4 },
+      { nama: "Gita", nilai: 88.9 },
+      { nama: "Hendra", nilai: 59.2 },
+      { nama: "Indah", nilai: 94.6 },
+      { nama: "Joko", nilai: 70.8 },
+      { nama: "Kartika", nilai: 85.5 },
+      { nama: "Lukman", nilai: 62.3 },
+      { nama: "Maya", nilai: 90.1 },
+      { nama: "Naufal", nilai: 76.9 },
+      { nama: "Olivia", nilai: 83.2 },
+      { nama: "Putra", nilai: 68.7 },
+      { nama: "Qori", nilai: 97.4 },
+      { nama: "Rina", nilai: 74.6 },
+      { nama: "Satria", nilai: 80.0 },
+      { nama: "Tia", nilai: 91.5 },
+      { nama: "Umar", nilai: 57.8 },
+      { nama: "Vina", nilai: 86.3 },
+      { nama: "Wahyu", nilai: 72.1 },
+      { nama: "Xena", nilai: 95.2 },
+      { nama: "Yusuf", nilai: 64.4 },
+      { nama: "Zahra", nilai: 89.7 },
+      { nama: "Amir", nilai: 77.3 },
+      { nama: "Bella", nilai: 82.6 },
+      { nama: "Candra", nilai: 69.9 },
+      { nama: "Dina", nilai: 93.8 },
+      { nama: "Evan", nilai: 61.5 },
+      { nama: "Farah", nilai: 84.0 },
+      { nama: "Galih", nilai: 75.2 },
+      { nama: "Hana", nilai: 98.1 }
+    ];
+
+    // Array utama berisi nama mahasiswa dan nilai ujian
+    let nilaiUAS = dataAwal.slice(0, JUMLAH_DATA);
+
+    // Fungsi Bubble Sort ("asc" atau "desc")
+    function bubbleSort(arr, urutan) {
+      let data = arr.map(item => ({ ...item })); // salin array
+      let n = data.length;
+
+      for (let i = 0; i < n - 1; i++) {
+        let tukar = false;
+
+        for (let j = 0; j < n - i - 1; j++) {
+          let harusTukar;
+
+          if (urutan === "asc") {
+            harusTukar = data[j].nilai > data[j + 1].nilai;
+          } else {
+            harusTukar = data[j].nilai < data[j + 1].nilai;
+          }
+
+          if (harusTukar) {
+            let temp = data[j];
+            data[j] = data[j + 1];
+            data[j + 1] = temp;
+            tukar = true;
+          }
+        }
+
+        if (!tukar) break; // sudah terurut
+      }
+
+      return data;
+    }
+
+    // Menampilkan data ke tabel
+    function tampilkan(judul, arr) {
+      document.getElementById("judul").textContent = judul;
+
+      let html = "<table><tr><th>No</th><th>Nama</th><th>Nilai</th></tr>";
+      arr.forEach((mhs, i) => {
+        html += `<tr><td>${i + 1}</td><td>${mhs.nama}</td><td>${mhs.nilai.toFixed(1)}</td></tr>`;
+      });
+      html += "</table>";
+
+      document.getElementById("hasil").innerHTML = html;
+    }
+
+    function urutkan(urutan) {
+      const hasil = bubbleSort(nilaiUAS, urutan);
+      const label = urutan === "asc" ? "Ascending" : "Descending";
+      tampilkan("Hasil Urut " + label, hasil);
+    }
+
+    // Tampilkan data awal saat halaman dibuka
+    tampilkan("Data Awal (" + JUMLAH_DATA + " mahasiswa)", nilaiUAS);
+  </script>
+</body>
+</html>
