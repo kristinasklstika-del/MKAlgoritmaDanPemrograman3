@@ -1,127 +1,232 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bubble Sort Nilai UAS</title>
-  <style>
-    body { font-family: Arial, sans-serif; max-width: 600px; margin: 30px auto; padding: 0 15px; }
-    button { padding: 8px 14px; margin-right: 6px; cursor: pointer; }
-    table { border-collapse: collapse; width: 100%; margin-top: 15px; }
-    th, td { border: 1px solid #999; padding: 6px 10px; text-align: left; }
-    th { background: #eee; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bubble Sort Visualizer - Nilai UAS</title>
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;font-family:'Segoe UI',Arial,sans-serif;color:#e2e8f0;
+    background:radial-gradient(circle at 20% 0%,#312e81 0,#0f172a 55%) fixed;padding:24px 14px}
+  .wrap{max-width:980px;margin:auto}
+  h1{margin:0;font-size:clamp(24px,5vw,38px);background:linear-gradient(90deg,#22d3ee,#a78bfa,#f472b6);
+    -webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{color:#94a3b8;margin:4px 0 18px}
+  .card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:16px;
+    padding:16px;margin-bottom:14px;backdrop-filter:blur(6px)}
+  .ctrl{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+  button{border:0;border-radius:10px;padding:10px 16px;font-weight:600;cursor:pointer;color:#fff;
+    transition:transform .15s,opacity .15s}
+  button:hover:not(:disabled){transform:translateY(-2px)}
+  button:disabled{opacity:.4;cursor:not-allowed}
+  .asc{background:linear-gradient(135deg,#06b6d4,#3b82f6)}
+  .desc{background:linear-gradient(135deg,#f472b6,#a855f7)}
+  .sec{background:#334155}
+  .spd{margin-left:auto;display:flex;align-items:center;gap:8px;font-size:14px;color:#94a3b8}
+  input[type=range]{accent-color:#a78bfa}
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+  .st{text-align:center}
+  .st b{display:block;font-size:26px;color:#fff}
+  .st span{font-size:12px;color:#94a3b8;text-transform:uppercase;letter-spacing:1px}
+  #status{margin:0 0 10px;font-weight:600;color:#fbbf24;min-height:22px}
+  .stage{position:relative;height:340px;border-bottom:2px solid rgba(255,255,255,.2)}
+  .bar{position:absolute;bottom:0;border-radius:8px 8px 0 0;
+    background:linear-gradient(180deg,#60a5fa,#6366f1);
+    transition:left .4s ease,background .25s,transform .25s;
+    display:flex;align-items:flex-end;justify-content:center;padding-bottom:6px}
+  .bar .v{position:absolute;top:-20px;font-size:11px;font-weight:700;color:#cbd5e1}
+  .bar .n{writing-mode:vertical-rl;transform:rotate(180deg);font-size:12px;font-weight:600;color:#fff;
+    text-shadow:0 1px 2px rgba(0,0,0,.5)}
+  .bar.cmp{background:linear-gradient(180deg,#fde047,#f59e0b);transform:translateY(-10px)}
+  .bar.swp{background:linear-gradient(180deg,#fb7185,#e11d48);transform:translateY(-16px)}
+  .bar.ok{background:linear-gradient(180deg,#6ee7b7,#059669)}
+  .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:#94a3b8;margin-top:10px}
+  .legend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  th,td{padding:8px 10px;text-align:left;border-bottom:1px solid rgba(255,255,255,.1)}
+  th{color:#94a3b8;font-size:12px;text-transform:uppercase;letter-spacing:1px}
+  tr.baru{animation:masuk .5s ease both}
+  @keyframes masuk{from{opacity:0;transform:translateX(-12px)}to{opacity:1;transform:none}}
+  .badge{padding:2px 10px;border-radius:99px;font-size:12px;font-weight:700}
+  .A{background:#065f46;color:#6ee7b7}.B{background:#1e3a8a;color:#93c5fd}.C{background:#78350f;color:#fcd34d}
+  .D{background:#7f1d1d;color:#fca5a5}
+  .info{display:flex;flex-wrap:wrap;gap:16px;font-size:14px;color:#cbd5e1;margin-bottom:10px}
+</style>
 </head>
 <body>
-  <h2>Bubble Sort Nilai UAS Mahasiswa</h2>
+<div class="wrap">
+  <h1>Bubble Sort Visualizer</h1>
+  <p class="sub">Pengurutan nilai UAS mahasiswa secara langsung, langkah demi langkah</p>
 
-  <button onclick="urutkan('asc')">Ascending</button>
-  <button onclick="urutkan('desc')">Descending</button>
-  <button onclick="tampilkan('Data Awal', nilaiUAS)">Reset</button>
+  <div class="card ctrl">
+    <button class="asc" onclick="urutkan('asc')">Ascending ▲</button>
+    <button class="desc" onclick="urutkan('desc')">Descending ▼</button>
+    <button class="sec" onclick="acak()">Acak</button>
+    <button class="sec" onclick="reset()">Reset</button>
+    <label class="spd">Kecepatan <input type="range" id="speed" min="1" max="10" value="6"></label>
+  </div>
 
-  <h3 id="judul"></h3>
-  <div id="hasil"></div>
+  <div class="card">
+    <p id="status">Pilih Ascending atau Descending untuk memulai.</p>
+    <div class="stage" id="stage"></div>
+    <div class="legend">
+      <span><i style="background:#6366f1"></i>Belum diproses</span>
+      <span><i style="background:#f59e0b"></i>Sedang dibandingkan</span>
+      <span><i style="background:#e11d48"></i>Ditukar</span>
+      <span><i style="background:#059669"></i>Sudah di posisi akhir</span>
+    </div>
+  </div>
 
-  <script>
-    // Nomor absen
-    const NOMOR_ABSEN = 6;
+  <div class="card stats">
+    <div class="st"><b id="sPutar">0</b><span>Putaran</span></div>
+    <div class="st"><b id="sCmp">0</b><span>Perbandingan</span></div>
+    <div class="st"><b id="sSwp">0</b><span>Pertukaran</span></div>
+    <div class="st"><b id="sN">0</b><span>Jumlah data</span></div>
+  </div>
 
-    // Jumlah data = 10 + nomor absen
-    const JUMLAH_DATA = 10 + NOMOR_ABSEN;
+  <div class="card">
+    <div class="info" id="info"></div>
+    <h3 id="judul" style="margin:0 0 8px"></h3>
+    <table><thead><tr><th>No</th><th>Nama</th><th>Nilai</th><th>Predikat</th></tr></thead>
+    <tbody id="tbody"></tbody></table>
+  </div>
+</div>
 
-    const dataAwal = [
-      { nama: "Syaiful", nilai: 99.8 },
-      { nama: "Anwar", nilai: 87.1 },
-      { nama: "Budi", nilai: 78.5 },
-      { nama: "Citra", nilai: 92.3 },
-      { nama: "Dewi", nilai: 65.0 },
-      { nama: "Eko", nilai: 81.7 },
-      { nama: "Fajar", nilai: 73.4 },
-      { nama: "Gita", nilai: 88.9 },
-      { nama: "Hendra", nilai: 59.2 },
-      { nama: "Indah", nilai: 94.6 },
-      { nama: "Joko", nilai: 70.8 },
-      { nama: "Kartika", nilai: 85.5 },
-      { nama: "Lukman", nilai: 62.3 },
-      { nama: "Maya", nilai: 90.1 },
-      { nama: "Naufal", nilai: 76.9 },
-      { nama: "Olivia", nilai: 83.2 },
-      { nama: "Putra", nilai: 68.7 },
-      { nama: "Qori", nilai: 97.4 },
-      { nama: "Rina", nilai: 74.6 },
-      { nama: "Satria", nilai: 80.0 },
-      { nama: "Tia", nilai: 91.5 },
-      { nama: "Umar", nilai: 57.8 },
-      { nama: "Vina", nilai: 86.3 },
-      { nama: "Wahyu", nilai: 72.1 },
-      { nama: "Xena", nilai: 95.2 },
-      { nama: "Yusuf", nilai: 64.4 },
-      { nama: "Zahra", nilai: 89.7 },
-      { nama: "Amir", nilai: 77.3 },
-      { nama: "Bella", nilai: 82.6 },
-      { nama: "Candra", nilai: 69.9 },
-      { nama: "Dina", nilai: 93.8 },
-      { nama: "Evan", nilai: 61.5 },
-      { nama: "Farah", nilai: 84.0 },
-      { nama: "Galih", nilai: 75.2 },
-      { nama: "Hana", nilai: 98.1 }
-    ];
+<script>
+  // Nomor absen
+  const NOMOR_ABSEN = 6;
+  // Jumlah data = 10 + nomor absen
+  const JUMLAH_DATA = 10 + NOMOR_ABSEN;
 
-    // Array utama berisi nama mahasiswa dan nilai ujian
-    let nilaiUAS = dataAwal.slice(0, JUMLAH_DATA);
+  const dataAwal = [
+    {nama:"Syaiful",nilai:99.8},{nama:"Anwar",nilai:87.1},{nama:"Budi",nilai:78.5},{nama:"Citra",nilai:92.3},
+    {nama:"Dewi",nilai:65.0},{nama:"Eko",nilai:81.7},{nama:"Fajar",nilai:73.4},{nama:"Gita",nilai:88.9},
+    {nama:"Hendra",nilai:59.2},{nama:"Indah",nilai:94.6},{nama:"Joko",nilai:70.8},{nama:"Kartika",nilai:85.5},
+    {nama:"Lukman",nilai:62.3},{nama:"Maya",nilai:90.1},{nama:"Naufal",nilai:76.9},{nama:"Olivia",nilai:83.2},
+    {nama:"Putra",nilai:68.7},{nama:"Qori",nilai:97.4},{nama:"Rina",nilai:74.6},{nama:"Satria",nilai:80.0},
+    {nama:"Tia",nilai:91.5},{nama:"Umar",nilai:57.8},{nama:"Vina",nilai:86.3},{nama:"Wahyu",nilai:72.1},
+    {nama:"Xena",nilai:95.2},{nama:"Yusuf",nilai:64.4},{nama:"Zahra",nilai:89.7},{nama:"Amir",nilai:77.3},
+    {nama:"Bella",nilai:82.6},{nama:"Candra",nilai:69.9},{nama:"Dina",nilai:93.8},{nama:"Evan",nilai:61.5},
+    {nama:"Farah",nilai:84.0},{nama:"Galih",nilai:75.2},{nama:"Hana",nilai:98.1}
+  ];
 
-    // Fungsi Bubble Sort ("asc" atau "desc")
-    function bubbleSort(arr, urutan) {
-      let data = arr.map(item => ({ ...item })); // salin array
-      let n = data.length;
+  // Array utama berisi nama mahasiswa dan nilai ujian
+  let nilaiUAS = dataAwal.slice(0, JUMLAH_DATA);
+  let arr = nilaiUAS.map(d => ({...d}));
+  let jalan = false;
+  const els = {};
+  const $ = id => document.getElementById(id);
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
+  const delay = () => 800 - $("speed").value * 70;
 
-      for (let i = 0; i < n - 1; i++) {
-        let tukar = false;
+  // Membuat batang
+  function buatBatang() {
+    const st = $("stage"); st.innerHTML = "";
+    const n = nilaiUAS.length;
+    nilaiUAS.forEach(d => {
+      const e = document.createElement("div");
+      e.className = "bar";
+      e.style.width = `calc(${100/n}% - 6px)`;
+      e.style.height = ((d.nilai - 40) / 60 * 100) + "%";
+      e.innerHTML = `<span class="v">${d.nilai.toFixed(1)}</span><span class="n">${d.nama}</span>`;
+      st.appendChild(e); els[d.nama] = e;
+    });
+    posisi();
+  }
+  function posisi() {
+    const n = arr.length;
+    arr.forEach((d, i) => els[d.nama].style.left = `calc(${i*100/n}% + 3px)`);
+  }
+  const tandai = (i, k, c) => els[arr[i].nama].classList.add(c) || (k != null && els[arr[k].nama].classList.add(c));
+  const hapus = (...idx) => idx.forEach(i => els[arr[i].nama].classList.remove("cmp","swp"));
 
-        for (let j = 0; j < n - i - 1; j++) {
-          let harusTukar;
+  function predikat(n) {
+    return n >= 85 ? ["A","A"] : n >= 70 ? ["B","B"] : n >= 55 ? ["C","C"] : ["D","D"];
+  }
+  function tabel(judul, list) {
+    $("judul").textContent = judul;
+    $("tbody").innerHTML = list.map((d, i) => {
+      const p = predikat(d.nilai);
+      return `<tr class="baru" style="animation-delay:${i*30}ms"><td>${i+1}</td><td>${d.nama}</td>
+        <td>${d.nilai.toFixed(1)}</td><td><span class="badge ${p[1]}">${p[0]}</span></td></tr>`;
+    }).join("");
+  }
+  function statistik() {
+    const nl = nilaiUAS.map(d => d.nilai);
+    const max = nilaiUAS.find(d => d.nilai === Math.max(...nl));
+    const min = nilaiUAS.find(d => d.nilai === Math.min(...nl));
+    const rata = nl.reduce((a, b) => a + b, 0) / nl.length;
+    $("info").innerHTML = `<span>🏆 Tertinggi: <b>${max.nama} (${max.nilai})</b></span>
+      <span>📉 Terendah: <b>${min.nama} (${min.nilai})</b></span>
+      <span>📊 Rata-rata: <b>${rata.toFixed(1)}</b></span>`;
+  }
+  function angka(p, c, s) {
+    $("sPutar").textContent = p; $("sCmp").textContent = c; $("sSwp").textContent = s;
+  }
+  function kunci(b) { document.querySelectorAll("button").forEach(x => x.disabled = b); }
 
-          if (urutan === "asc") {
-            harusTukar = data[j].nilai > data[j + 1].nilai;
-          } else {
-            harusTukar = data[j].nilai < data[j + 1].nilai;
-          }
+  function reset() {
+    if (jalan) return;
+    arr = nilaiUAS.map(d => ({...d}));
+    Object.values(els).forEach(e => e.classList.remove("cmp","swp","ok"));
+    posisi(); angka(0, 0, 0);
+    tabel("Data Awal", arr);
+    $("status").textContent = "Pilih Ascending atau Descending untuk memulai.";
+  }
+  function acak() {
+    if (jalan) return;
+    for (let i = nilaiUAS.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [nilaiUAS[i], nilaiUAS[j]] = [nilaiUAS[j], nilaiUAS[i]];
+    }
+    reset();
+    $("status").textContent = "Data diacak. Silakan pilih urutan.";
+  }
 
-          if (harusTukar) {
-            let temp = data[j];
-            data[j] = data[j + 1];
-            data[j + 1] = temp;
-            tukar = true;
-          }
+  // Bubble Sort ("asc" atau "desc")
+  async function urutkan(mode) {
+    if (jalan) return;
+    reset(); jalan = true; kunci(true);
+    const label = mode === "asc" ? "Ascending" : "Descending";
+    const n = arr.length;
+    let cmp = 0, swp = 0, putar = 0;
+    await sleep(400);
+
+    for (let i = 0; i < n - 1; i++) {
+      let tukar = false; putar++;
+      $("status").textContent = `Putaran ${putar}: mencari nilai ${mode === "asc" ? "terbesar" : "terkecil"}...`;
+
+      for (let j = 0; j < n - i - 1; j++) {
+        cmp++;
+        tandai(j, j + 1, "cmp");
+        angka(putar, cmp, swp);
+        await sleep(delay());
+
+        const harusTukar = mode === "asc" ? arr[j].nilai > arr[j+1].nilai
+                                          : arr[j].nilai < arr[j+1].nilai;
+        if (harusTukar) {
+          [arr[j], arr[j+1]] = [arr[j+1], arr[j]];
+          swp++; tukar = true;
+          tandai(j, j + 1, "swp");
+          posisi(); angka(putar, cmp, swp);
+          await sleep(delay());
         }
-
-        if (!tukar) break; // sudah terurut
+        hapus(j, j + 1);
       }
-
-      return data;
+      els[arr[n - i - 1].nama].classList.add("ok");
+      if (!tukar) break; // sudah terurut
     }
+    arr.forEach(d => els[d.nama].classList.add("ok"));
+    angka(putar, cmp, swp);
+    $("status").textContent = `Selesai! Data terurut ${label} dengan ${swp} pertukaran.`;
+    tabel("Hasil Urut " + label, arr);
+    jalan = false; kunci(false);
+  }
 
-    // Menampilkan data ke tabel
-    function tampilkan(judul, arr) {
-      document.getElementById("judul").textContent = judul;
-
-      let html = "<table><tr><th>No</th><th>Nama</th><th>Nilai</th></tr>";
-      arr.forEach((mhs, i) => {
-        html += `<tr><td>${i + 1}</td><td>${mhs.nama}</td><td>${mhs.nilai.toFixed(1)}</td></tr>`;
-      });
-      html += "</table>";
-
-      document.getElementById("hasil").innerHTML = html;
-    }
-
-    function urutkan(urutan) {
-      const hasil = bubbleSort(nilaiUAS, urutan);
-      const label = urutan === "asc" ? "Ascending" : "Descending";
-      tampilkan("Hasil Urut " + label, hasil);
-    }
-
-    // Tampilkan data awal saat halaman dibuka
-    tampilkan("Data Awal (" + JUMLAH_DATA + " mahasiswa)", nilaiUAS);
-  </script>
+  // Tampilan awal
+  $("sN").textContent = JUMLAH_DATA;
+  buatBatang(); statistik();
+  tabel("Data Awal", arr);
+</script>
 </body>
 </html>
